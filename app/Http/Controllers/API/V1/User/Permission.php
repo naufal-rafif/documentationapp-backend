@@ -14,28 +14,42 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Permission extends Controller
 {
+    
     /**
-     * 
-     * Get all user permission
-     * @OA\Get(
+     * @OA\Get (
      *     path="/user/permission",
-     *     summary="Get list of permissions",
      *     tags={"User - Permission"},
      *     security={{"bearer_token":{}}},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="integer", example=200),
-     *             @OA\Property(property="message", type="string", example="OK"),
-     *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="view_users")
-     *                 )
-     *             )
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search by permission name",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
      *         )
-     *     )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status_code", type="integer", example=200),
+     *              @OA\Property(property="message", type="string", example="OK"),
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="permissions", type="array",
+     *                          @OA\Items(
+     *                              @OA\Property(property="id", type="string"),
+     *                              @OA\Property(property="label", type="string"),
+     *                              @OA\Property(property="description", type="string")
+     *                          )
+     *                      )
+     *                  )
+     *              ),
+     *          )
+     *      ),
      * )
      */
     public function index(Request $request)
@@ -69,12 +83,13 @@ class Permission extends Controller
             'data' => $permissions
         ]);
     }
-
-
+    
     /**
+     * 
+     * Get user permission by uuid
      * @OA\Get(
      *     path="/user/permission/{uuid}",
-     *     summary="Get permission by permission uuid",
+     *     summary="Get permission by uuid",
      *     tags={"User - Permission"},
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
@@ -90,8 +105,10 @@ class Permission extends Controller
      *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="OK"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="view_users")
+     *                 @OA\Property(property="id", type="string", example="view_users"),
+     *                 @OA\Property(property="name", type="string", example="view_users"),
+     *                 @OA\Property(property="label", type="string", example="View Users"),
+     *                 @OA\Property(property="description", type="string", example="View Users")
      *             )
      *         )
      *     ),
@@ -102,7 +119,7 @@ class Permission extends Controller
      *             @OA\Property(property="status_code", type="integer", example=404),
      *             @OA\Property(property="message", type="string", example="Permission Not Found")
      *         )
-     *     ),
+     *     )
      * )
      */
     public function show($uuid)
@@ -133,46 +150,21 @@ class Permission extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
      * @OA\Post(
      *     path="/user/permission",
-     *     summary="Create a new permission",
+     *     summary="Create permission",
      *     tags={"User - Permission"},
      *     security={{"bearer_token":{}}},
      *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="name",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="label",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="description",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="group_id",
-     *                          type="integer"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="level",
-     *                          type="integer"
-     *                      ),
-     *                 ),
-     *                 example={
-     *                     "name":"create_user",
-     *                     "label":"Create User",
-     *                     "group_id":1,
-     *                     "description" : "Permission to create User",
-     *                     "level" : 1
-     *                }
-     *             )
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="group_id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="view_users"),
+     *             @OA\Property(property="label", type="string", example="View Users"),
+     *             @OA\Property(property="description", type="string", example="View Users"),
+     *             @OA\Property(property="level", type="integer", example=1)
      *         )
      *     ),
      *     @OA\Response(
@@ -182,9 +174,29 @@ class Permission extends Controller
      *             @OA\Property(property="status_code", type="integer", example=201),
      *             @OA\Property(property="message", type="string", example="Permission created successfully"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="view_users")
+     *                 @OA\Property(property="id", type="string", example="b6b5b2b9-5b7a-41b1-8f5e-deb2c6a5e3d6"),
+     *                 @OA\Property(property="group_id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="view_users"),
+     *                 @OA\Property(property="label", type="string", example="View Users"),
+     *                 @OA\Property(property="description", type="string", example="View Users"),
+     *                 @OA\Property(property="level", type="integer", example=1)
      *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=400),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Group ID not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=404),
+     *             @OA\Property(property="message", type="string", example="Group ID not found")
      *         )
      *     )
      * )
@@ -221,53 +233,28 @@ class Permission extends Controller
         ], Response::HTTP_CREATED);
     }
 
+    
     /**
      * @OA\Put(
-     *     path="/user/permission/{name}",
-     *     summary="Update a permission",
+     *     path="/user/permission/{uuid}",
+     *     summary="Update permission by uuid",
      *     tags={"User - Permission"},
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
-     *         name="name",
+     *         name="uuid",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="name",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="label",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="description",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="group_id",
-     *                          type="integer"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="level",
-     *                          type="integer"
-     *                      ),
-     *                 ),
-     *                 example={
-     *                     "name":"create_user",
-     *                     "label":"Create User",
-     *                     "group_id":1,
-     *                     "description" : "Permission to create User",
-     *                     "level" : 1
-     *                }
-     *             )
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", example="view_users"),
+     *             @OA\Property(property="label", type="string", example="View Users"),
+     *             @OA\Property(property="description", type="string", example="For View Users"),
+     *             @OA\Property(property="level", type="integer", example=3),
+     *             @OA\Property(property="group_id", type="integer", example=1)
      *         )
      *     ),
      *     @OA\Response(
@@ -277,8 +264,11 @@ class Permission extends Controller
      *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="Permission updated successfully"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="view_users")
+     *                 @OA\Property(property="id", type="string", example="1"),
+     *                 @OA\Property(property="name", type="string", example="view_users"),
+     *                 @OA\Property(property="label", type="string", example="View Users"),
+     *                 @OA\Property(property="description", type="string", example="For View Users"),
+     *                 @OA\Property(property="level", type="integer", example=3)
      *             )
      *         )
      *     ),
@@ -325,15 +315,14 @@ class Permission extends Controller
         ], Response::HTTP_OK);
     }
 
-
     /**
      * @OA\Delete(
-     *     path="/user/permission/{name}",
+     *     path="/user/permission/{uuid}",
      *     summary="Delete a permission",
      *     tags={"User - Permission"},
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
-     *         name="name",
+     *         name="uuid",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="string")

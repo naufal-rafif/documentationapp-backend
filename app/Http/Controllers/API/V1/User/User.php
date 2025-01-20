@@ -17,48 +17,65 @@ use Symfony\Component\HttpFoundation\Response;
 
 class User extends Controller
 {
+
     /**
-     * Get All User
-     * 
-     * Get All User
-     * @OA\Get (
-     *     path="/user/user",
+     * Retrieve a paginated list of users with their roles.
+     *
+     * @OA\Get(
+     *     path="/user",
      *     tags={"User - User"},
      *     security={{"bearer_token":{}}},
-     *      @OA\Response(
-     *          response=200,
-     *          description="Success",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status_code", type="number", example=200),
-     *              @OA\Property(property="message", type="string", example="OK"),
-     *              @OA\Property(property="data", type="object",
-     *                  @OA\Property(property="code", type="number", example=200),
-     *                  @OA\Property(property="status", type="string", example="success"),
-     *                  @OA\Property(property="message", type="string", example=null),
-     *              ),
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Validation error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="meta", type="object",
-     *                  @OA\Property(property="code", type="number", example=422),
-     *                  @OA\Property(property="status", type="string", example="error"),
-     *                  @OA\Property(property="message", type="object",
-     *                      @OA\Property(property="email", type="array", collectionFormat="multi",
-     *                        @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                          )
-     *                      ),
-     *                  ),
-     *              ),
-     *              @OA\Property(property="data", type="object", example={}),
-     *          )
-     *      )
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search by user name",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Limit data per page",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=5)
+     *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="OK"),
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="total_data", type="integer", example=100),
+     *                 @OA\Property(property="total_pages", type="integer", example=20),
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="per_page", type="integer", example=5)
+     *             ),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="string", example="uuid"),
+     *                     @OA\Property(property="name", type="string", example="User Name"),
+     *                     @OA\Property(property="email", type="string", example="user@example.com"),
+     *                     @OA\Property(property="roles", type="array",
+     *                         @OA\Items(type="string", example="Admin")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
      * )
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
+
     public function index(Request $request)
     {
         $limit = $request->limit ?? 5;
@@ -94,76 +111,53 @@ class User extends Controller
     }
 
     /**
-     * Create user
-     * @OA\Post (
+     * Store a newly created user in storage.
+     *
+     * @OA\Post(
      *     path="/user/user",
+     *     summary="Create user",
      *     tags={"User - User"},
      *     security={{"bearer_token":{}}},
      *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="name",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="email",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="password",
-     *                          type="string"
-     *                      ),
-     *                 ),
-     *                 example={
-     *                     "name":"user",
-     *                     "email":"user@mail.com",
-     *                     "password":"password"
-     *                }
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", example="john@example.com"),
+     *             @OA\Property(property="password", type="string", example="password"),
+     *             @OA\Property(property="full_name", type="string", example="John Doe"),
+     *             @OA\Property(property="address", type="string", example="Jalan Jalan 1", nullable=true),
+     *             @OA\Property(property="phone_number", type="string", example="081234567890", nullable=true),
+     *             @OA\Property(property="birth_date", type="string", example="1990-01-01", nullable=true, format="date"),
+     *             @OA\Property(property="gender", type="string", example="male", nullable=true),
+     *             @OA\Property(property="status_account", type="string", example="active", nullable=true, default="active"),
+     *             @OA\Property(property="company_id", type="string", example="company_uuid", nullable=true),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="User created successfully"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", example="john@example.com"),
+     *                 @OA\Property(property="roles", type="array",
+     *                     @OA\Items(type="string", example="Guest")
+     *                 )
      *             )
      *         )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Valid credentials",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="meta", type="object",
-     *                  @OA\Property(property="code", type="number", example=200),
-     *                  @OA\Property(property="status", type="string", example="success"),
-     *                  @OA\Property(property="message", type="string", example=null),
-     *              ),
-     *              @OA\Property(property="data", type="object",
-     *                  @OA\Property(property="user", type="object",
-     *                      @OA\Property(property="id", type="number", example=2),
-     *                      @OA\Property(property="name", type="string", example="User"),
-     *                      @OA\Property(property="email", type="string", example="user@test.com"),
-     *                      @OA\Property(property="email_verified_at", type="string", example=null),
-     *                      @OA\Property(property="updated_at", type="string", example="2022-06-28 06:06:17"),
-     *                      @OA\Property(property="created_at", type="string", example="2022-06-28 06:06:17"),
-     *                  ),
-     *                  @OA\Property(property="access_token", type="object",
-     *                      @OA\Property(property="token", type="string", example="randomtokenasfhajskfhajf398rureuuhfdshk"),
-     *                      @OA\Property(property="type", type="string", example="Bearer"),
-     *                      @OA\Property(property="expires_in", type="number", example=3600),
-     *                  ),
-     *              ),
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Invalid credentials",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="meta", type="object",
-     *                  @OA\Property(property="code", type="number", example=401),
-     *                  @OA\Property(property="status", type="string", example="error"),
-     *                  @OA\Property(property="message", type="string", example="Incorrect username or password!"),
-     *              ),
-     *              @OA\Property(property="data", type="object", example={}),
-     *          )
-     *      )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=400),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     )
      * )
      */
     public function store(AddUserRequest $request)
@@ -202,6 +196,8 @@ class User extends Controller
     }
 
     /**
+     * Get user by uuid
+     * 
      * @OA\Get(
      *     path="/user/user/{uuid}",
      *     summary="Get user by uuid",
@@ -217,24 +213,35 @@ class User extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="number", example=200),
+     *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="OK"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="uuid", type="string", example="admin"),
-     *                 @OA\Property(property="name", type="string", example="Admin"),
-     *                 @OA\Property(property="email", type="string", example="admin@localhost.com"),
-     *                 @OA\Property(property="email_verified_at", type="string", example=null),
-     *                 @OA\Property(property="created_at", type="string", example="2022-06-28 06:06:17"),
-     *                 @OA\Property(property="updated_at", type="string", example="2022-06-28 06:06:17"),
-     *             ),
+     *                 @OA\Property(property="id", type="string", example="user_uuid"),
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", example="john@example.com"),
+     *                 @OA\Property(property="details", type="object",
+     *                     @OA\Property(property="full_name", type="string", example="John Doe"),
+     *                     @OA\Property(property="address", type="string", example="Address", nullable=true),
+     *                     @OA\Property(property="avatar", type="string", example=null, nullable=true),
+     *                     @OA\Property(property="phone_number", type="string", example="1234567890", nullable=true),
+     *                     @OA\Property(property="birth_date", type="string", example="1990-01-01", nullable=true),
+     *                     @OA\Property(property="gender", type="string", example="male", nullable=true),
+     *                     @OA\Property(property="status_account", type="string", example="active", nullable=true)
+     *                 ),
+     *                 @OA\Property(property="roles", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="name", type="string", example="Guest"),
+     *                         @OA\Property(property="uuid", type="string", example="role_uuid")
+     *                     )
+     *                 )
+     *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="User Not Found",
      *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="number", example=404),
+     *             @OA\Property(property="status_code", type="integer", example=404),
      *             @OA\Property(property="message", type="string", example="User Not Found")
      *         )
      *     )
@@ -281,27 +288,35 @@ class User extends Controller
      *             type="object",
      *             @OA\Property(property="name", type="string", example="John Doe"),
      *             @OA\Property(property="email", type="string", example="john@example.com"),
-     *             @OA\Property(property="password", type="string", example="password", description="Password is required when you want to update the password"),
+     *             @OA\Property(property="password", type="string", example="password", nullable=true),
+     *             @OA\Property(property="company_id", type="string", example="company_uuid", nullable=true),
+     *             @OA\Property(property="role_id", type="string", example="role_uuid", nullable=true)
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="User Successfully updated",
      *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="number", example=200),
+     *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="User Successfully updated"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="id", type="string", example="user_uuid"),
      *                 @OA\Property(property="name", type="string", example="John Doe"),
      *                 @OA\Property(property="email", type="string", example="john@example.com"),
-     *             ),
+     *                 @OA\Property(property="roles", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="string", example="role_uuid"),
+     *                         @OA\Property(property="name", type="string", example="role_name"),
+     *                     )
+     *                 )
+     *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="User Not Found",
      *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="number", example=404),
+     *             @OA\Property(property="status_code", type="integer", example=404),
      *             @OA\Property(property="message", type="string", example="User Not Found")
      *         )
      *     )
@@ -338,11 +353,11 @@ class User extends Controller
             'data' => $user
         ], Response::HTTP_OK);
     }
-
-   
     /**
+     * Update user status
+     *
      * @OA\Post(
-     *     path="/user/user/{uuid}",
+     *     path="/user/user/{uuid}/status",
      *     summary="Update user status",
      *     tags={"User - User"},
      *     security={{"bearer_token":{}}},
@@ -355,12 +370,13 @@ class User extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="active"),
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="active", description="The status of the user", nullable=true)
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="User update successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="User update successfully"),
@@ -386,7 +402,7 @@ class User extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
         $user_detail = UserDetail::where('user_id', $user->id)->first();
-        if(!$user_detail){
+        if (!$user_detail) {
             $user_detail = UserDetail::create([
                 'user_id' => $user->id,
                 'status_account' => $request->status
@@ -406,6 +422,8 @@ class User extends Controller
     }
 
     /**
+     * Delete user by UUID
+     *
      * @OA\Delete(
      *     path="/user/user/{uuid}",
      *     summary="Delete user by uuid",
@@ -413,6 +431,7 @@ class User extends Controller
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
      *         name="uuid",
+
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="string")
@@ -435,6 +454,7 @@ class User extends Controller
      *     )
      * )
      */
+
     public function destroy($uuid)
     {
         $user = UserModel::where('uuid', $uuid)->first();
@@ -449,6 +469,6 @@ class User extends Controller
         return response()->json([
             'status_code' => Response::HTTP_OK,
             'message' => 'User deleted successfully'
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 }

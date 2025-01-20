@@ -31,22 +31,25 @@
                 "tags": [
                     "Authentication - Basic"
                 ],
-                "summary": "Authenticate User and Generate Token",
-                "operationId": "0390b88c0091ac8d1bffc3d1ec6fdc94",
+                "summary": "Login user",
+                "description": "Login user and return token",
+                "operationId": "login",
                 "requestBody": {
+                    "description": "Input data format",
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
                                     "email": {
-                                        "description": "The email address of the user",
+                                        "description": "The email of the user",
                                         "type": "string",
-                                        "example": "developer@example.com"
+                                        "example": "user1@mail.com"
                                     },
                                     "password": {
                                         "description": "The password of the user",
                                         "type": "string",
-                                        "example": "password"
+                                        "example": "123456"
                                     }
                                 },
                                 "type": "object"
@@ -56,7 +59,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Login successful and token generated",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -67,53 +70,56 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Login successful"
+                                            "example": "OK"
                                         },
                                         "data": {
                                             "properties": {
                                                 "token": {
                                                     "type": "string",
-                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                                    "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTYyNjQ0NjM3NCwiZXhwIjoxNjI2NDUwOTc0LCJuYmYiOjE2MjY0NDYzNzQsImp0aSI6IjM2YmM3MzcxNWZiOGJmMTciLCJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaGFuIjoiMjMwfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
                                                 },
                                                 "user": {
                                                     "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 1
-                                                        },
                                                         "name": {
                                                             "type": "string",
                                                             "example": "John Doe"
                                                         },
                                                         "email": {
                                                             "type": "string",
-                                                            "example": "admin@gmail.com"
+                                                            "example": "user1@mail.com"
                                                         },
                                                         "company_id": {
                                                             "type": "integer",
-                                                            "example": 1001
+                                                            "example": 1
+                                                        },
+                                                        "permissions": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "example": "view_users"
+                                                            },
+                                                            "collectionFormat": "multi"
                                                         },
                                                         "details": {
                                                             "properties": {
                                                                 "full_name": {
                                                                     "type": "string",
-                                                                    "example": "Johnathan Doe"
+                                                                    "example": "John Doe"
                                                                 },
                                                                 "address": {
                                                                     "type": "string",
-                                                                    "example": "123 Main St, Anytown, USA"
+                                                                    "example": "Jl. Jend. Sudirman No. 1, Jakarta Pusat"
                                                                 },
                                                                 "avatar": {
                                                                     "type": "string",
-                                                                    "example": "https://example.com/storage/avatars/avatar123.jpg"
+                                                                    "example": "https://example.com/avatar.jpg"
                                                                 },
                                                                 "phone_number": {
                                                                     "type": "string",
-                                                                    "example": "+1234567890"
+                                                                    "example": "081234567890"
                                                                 },
                                                                 "birth_date": {
                                                                     "type": "string",
-                                                                    "format": "date",
                                                                     "example": "1990-01-01"
                                                                 },
                                                                 "gender": {
@@ -139,19 +145,23 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Invalid credentials",
+                    "401": {
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status_code": {
                                             "type": "integer",
-                                            "example": 404
+                                            "example": 401
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Invalid credentials"
+                                            "example": "Unauthorized"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
                                         }
                                     },
                                     "type": "object"
@@ -167,66 +177,50 @@
                 "tags": [
                     "Authentication - Basic"
                 ],
-                "summary": "Authentication Register",
+                "summary": "Create a new user and assign the default role for the company",
                 "operationId": "583aaf91d4692dc75e02ebc30b8a90ec",
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "name": {
-                                        "description": "The name of the user",
                                         "type": "string",
                                         "example": "John Doe"
                                     },
                                     "email": {
-                                        "description": "The email of the user",
                                         "type": "string",
                                         "example": "john.doe@example.com"
                                     },
                                     "password": {
-                                        "description": "The password for the user account",
                                         "type": "string",
                                         "example": "password123"
                                     },
                                     "password_confirmation": {
-                                        "description": "Password confirmation",
                                         "type": "string",
                                         "example": "password123"
                                     },
                                     "full_name": {
-                                        "description": "The full name of the user",
                                         "type": "string",
                                         "example": "Johnathan Doe"
                                     },
                                     "address": {
-                                        "description": "The address of the user",
                                         "type": "string",
                                         "example": "123 Main Street, Springfield",
                                         "nullable": true
                                     },
-                                    "avatar": {
-                                        "description": "Avatar image file",
-                                        "type": "string",
-                                        "format": "binary",
-                                        "example": "string (binary file)"
-                                    },
                                     "phone_number": {
-                                        "description": "The phone number of the user",
                                         "type": "string",
                                         "example": "1234567890",
                                         "nullable": true
                                     },
                                     "birth_date": {
-                                        "description": "The birth date of the user",
                                         "type": "string",
                                         "format": "date",
                                         "example": "1990-01-01",
                                         "nullable": true
                                     },
                                     "gender": {
-                                        "description": "The gender of the user",
                                         "type": "string",
                                         "enum": [
                                             "male",
@@ -237,10 +231,22 @@
                                         "nullable": true
                                     },
                                     "status_account": {
-                                        "description": "The status of the account",
                                         "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ],
                                         "example": "active",
                                         "nullable": true
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "string (binary file)"
+                                    },
+                                    "company_id": {
+                                        "type": "string",
+                                        "example": "d7ea6c3a-9a0a-4c6f-8df4-6c3cc9b89ea9"
                                     }
                                 },
                                 "type": "object"
@@ -250,7 +256,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "User created successfully",
+                        "description": "User Created Successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -275,55 +281,35 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The name field is required. (and 1 more error)"
-                                        },
-                                        "errors": {
+                                        "meta": {
                                             "properties": {
-                                                "name": {
-                                                    "properties": {
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "The name field is required."
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "code": {
+                                                    "type": "number",
+                                                    "example": 422
                                                 },
-                                                "email": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "error"
+                                                },
+                                                "message": {
                                                     "properties": {
                                                         "email": {
-                                                            "type": "string",
-                                                            "example": "The email field is required."
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "example": "The email has already been taken."
+                                                            },
+                                                            "collectionFormat": "multi"
                                                         }
                                                     },
                                                     "type": "object"
                                                 }
                                             },
                                             "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status_code": {
-                                            "type": "integer",
-                                            "example": 500
                                         },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Error occurred while creating user."
-                                        },
-                                        "error": {
-                                            "type": "string"
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
                                         }
                                     },
                                     "type": "object"
@@ -339,12 +325,21 @@
                 "tags": [
                     "User - Permission"
                 ],
-                "summary": "Get list of permissions",
-                "description": "Get all user permission",
                 "operationId": "a77abb113976b6591280954244dcdbc7",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by permission name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -361,13 +356,28 @@
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
                                                     "name": {
-                                                        "type": "string",
-                                                        "example": "view_users"
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "permissions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "label": {
+                                                                    "type": "string"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"
@@ -390,42 +400,36 @@
                 "tags": [
                     "User - Permission"
                 ],
-                "summary": "Create a new permission",
+                "summary": "Create permission",
+                "description": "Store a newly created resource in storage.",
                 "operationId": "d235fbe556e6135b560da331c8f0e8a9",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "": {
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "label": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            },
-                                            "group_id": {
-                                                "type": "integer"
-                                            },
-                                            "level": {
-                                                "type": "integer"
-                                            }
-                                        },
-                                        "type": "object"
+                                    "group_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "view_users"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "example": "View Users"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "View Users"
+                                    },
+                                    "level": {
+                                        "type": "integer",
+                                        "example": 1
                                     }
                                 },
-                                "type": "object",
-                                "example": {
-                                    "name": "create_user",
-                                    "label": "Create User",
-                                    "group_id": 1,
-                                    "description": "Permission to create User",
-                                    "level": 1
-                                }
+                                "type": "object"
                             }
                         }
                     }
@@ -448,15 +452,71 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
+                                                    "type": "string",
+                                                    "example": "b6b5b2b9-5b7a-41b1-8f5e-deb2c6a5e3d6"
+                                                },
+                                                "group_id": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
                                                 "name": {
                                                     "type": "string",
                                                     "example": "view_users"
+                                                },
+                                                "label": {
+                                                    "type": "string",
+                                                    "example": "View Users"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "View Users"
+                                                },
+                                                "level": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 400
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Group ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Group ID not found"
                                         }
                                     },
                                     "type": "object"
@@ -477,7 +537,8 @@
                 "tags": [
                     "User - Permission"
                 ],
-                "summary": "Get permission by permission uuid",
+                "summary": "Get permission by uuid",
+                "description": "Get user permission by uuid",
                 "operationId": "c9f3137dbbd6b850bcc066f8cbf67f51",
                 "parameters": [
                     {
@@ -507,12 +568,20 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "view_users"
                                                 },
                                                 "name": {
                                                     "type": "string",
                                                     "example": "view_users"
+                                                },
+                                                "label": {
+                                                    "type": "string",
+                                                    "example": "View Users"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "View Users"
                                                 }
                                             },
                                             "type": "object"
@@ -549,18 +618,16 @@
                         "bearer_token": []
                     }
                 ]
-            }
-        },
-        "/user/permission/{name}": {
+            },
             "put": {
                 "tags": [
                     "User - Permission"
                 ],
-                "summary": "Update a permission",
-                "operationId": "672378da483113264ca65cbde7bb60dd",
+                "summary": "Update permission by uuid",
+                "operationId": "e46efd9a345e7ad8b96c6dadd7161969",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "uuid",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -569,39 +636,33 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "": {
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "label": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            },
-                                            "group_id": {
-                                                "type": "integer"
-                                            },
-                                            "level": {
-                                                "type": "integer"
-                                            }
-                                        },
-                                        "type": "object"
+                                    "name": {
+                                        "type": "string",
+                                        "example": "view_users"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "example": "View Users"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "For View Users"
+                                    },
+                                    "level": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "group_id": {
+                                        "type": "integer",
+                                        "example": 1
                                     }
                                 },
-                                "type": "object",
-                                "example": {
-                                    "name": "create_user",
-                                    "label": "Create User",
-                                    "group_id": 1,
-                                    "description": "Permission to create User",
-                                    "level": 1
-                                }
+                                "type": "object"
                             }
                         }
                     }
@@ -624,12 +685,24 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "1"
                                                 },
                                                 "name": {
                                                     "type": "string",
                                                     "example": "view_users"
+                                                },
+                                                "label": {
+                                                    "type": "string",
+                                                    "example": "View Users"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "For View Users"
+                                                },
+                                                "level": {
+                                                    "type": "integer",
+                                                    "example": 3
                                                 }
                                             },
                                             "type": "object"
@@ -672,10 +745,10 @@
                     "User - Permission"
                 ],
                 "summary": "Delete a permission",
-                "operationId": "4db72d8cf11934c3f92843c218a1ac28",
+                "operationId": "aae6acb6fa7263b13a4d867e9db117d7",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "uuid",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -738,7 +811,39 @@
                     "User - Role"
                 ],
                 "summary": "Get All Role",
+                "description": "Get All Role",
                 "operationId": "96a30b6ddf75d5a404bf1fee5c821aba",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by role name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 5
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page data",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -747,71 +852,64 @@
                                 "schema": {
                                     "properties": {
                                         "status_code": {
-                                            "type": "number",
+                                            "type": "integer",
                                             "example": 200
                                         },
                                         "message": {
                                             "type": "string",
                                             "example": "OK"
                                         },
-                                        "data": {
-                                            "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 200
-                                                },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "success"
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": null
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
                                         "meta": {
                                             "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 422
+                                                "total_data": {
+                                                    "type": "integer",
+                                                    "example": 10
                                                 },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "error"
+                                                "total_pages": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
-                                                "message": {
-                                                    "properties": {
-                                                        "email": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string",
-                                                                "example": "The email has already been taken."
-                                                            },
-                                                            "collectionFormat": "multi"
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 5
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "data": {
-                                            "type": "object",
-                                            "example": []
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "permissions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "label": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -830,117 +928,85 @@
                 "tags": [
                     "User - Role"
                 ],
-                "summary": "Create Role",
+                "summary": "Create role",
+                "description": "Create role",
                 "operationId": "c861ccb3207178a9754db5fdbba24d69",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "": {
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "level": {
-                                                "type": "string"
-                                            },
-                                            "company_id": {
-                                                "type": "integer"
-                                            },
-                                            "description": {
-                                                "type": "integer"
-                                            },
-                                            "permissions": {
-                                                "type": "object"
-                                            }
+                                    "name": {
+                                        "description": "The name of the role",
+                                        "type": "string",
+                                        "example": "role_name"
+                                    },
+                                    "level": {
+                                        "description": "The level of the role",
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    },
+                                    "description": {
+                                        "description": "The description of the role",
+                                        "type": "string",
+                                        "example": "role_description",
+                                        "nullable": true
+                                    },
+                                    "company_id": {
+                                        "description": "The uuid of the company",
+                                        "type": "string",
+                                        "example": "company_uuid",
+                                        "nullable": true
+                                    },
+                                    "permissions": {
+                                        "description": "The uuid of the permissions",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "permission_uuid"
                                         },
-                                        "type": "object"
+                                        "collectionFormat": "multi",
+                                        "nullable": true
                                     }
                                 },
-                                "type": "object",
-                                "example": {
-                                    "name": "Role",
-                                    "level": 1,
-                                    "company_id": null,
-                                    "description": "lorem ipsum dolor",
-                                    "permissions": null
-                                }
+                                "type": "object"
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Valid credentials",
+                    "201": {
+                        "description": "Role created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "meta": {
-                                            "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 200
-                                                },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "success"
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": null
-                                                }
-                                            },
-                                            "type": "object"
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
                                         },
                                         "data": {
                                             "properties": {
-                                                "user": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "number",
-                                                            "example": 2
-                                                        },
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "User"
-                                                        },
-                                                        "email": {
-                                                            "type": "string",
-                                                            "example": "user@test.com"
-                                                        },
-                                                        "email_verified_at": {
-                                                            "type": "string",
-                                                            "example": null
-                                                        },
-                                                        "updated_at": {
-                                                            "type": "string",
-                                                            "example": "2022-06-28 06:06:17"
-                                                        },
-                                                        "created_at": {
-                                                            "type": "string",
-                                                            "example": "2022-06-28 06:06:17"
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "role_uuid"
                                                 },
-                                                "access_token": {
-                                                    "properties": {
-                                                        "token": {
-                                                            "type": "string",
-                                                            "example": "randomtokenasfhajskfhajf398rureuuhfdshk"
-                                                        },
-                                                        "type": {
-                                                            "type": "string",
-                                                            "example": "Bearer"
-                                                        },
-                                                        "expires_in": {
-                                                            "type": "number",
-                                                            "example": 3600
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "role_name"
+                                                },
+                                                "level": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "role_description"
                                                 }
                                             },
                                             "type": "object"
@@ -952,31 +1018,38 @@
                         }
                     },
                     "401": {
-                        "description": "Invalid credentials",
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "meta": {
-                                            "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 401
-                                                },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "error"
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": "Incorrect username or password!"
-                                                }
-                                            },
-                                            "type": "object"
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 401
                                         },
-                                        "data": {
-                                            "type": "object",
-                                            "example": []
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 403
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not allowed to create a role with a higher level than your own"
                                         }
                                     },
                                     "type": "object"
@@ -1011,7 +1084,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Role found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1027,18 +1100,31 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "uuid": {
                                                     "type": "string",
-                                                    "example": "admin"
+                                                    "example": "role_uuid"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "role_name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "role_description"
                                                 },
                                                 "permissions": {
                                                     "type": "array",
                                                     "items": {
-                                                        "type": "string",
-                                                        "example": "view_users"
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "permission_uuid"
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "permission_label"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },
@@ -1076,18 +1162,17 @@
                         "bearer_token": []
                     }
                 ]
-            }
-        },
-        "/user/role/{name}": {
+            },
             "put": {
                 "tags": [
                     "User - Role"
                 ],
-                "summary": "Update a role by name",
-                "operationId": "4b2c8f6de30d90251f22d294433231c4",
+                "summary": "Update role by uuid",
+                "description": "Update the specified resource in storage.",
+                "operationId": "bef717e180f1a6cf1f4db10a4f3e19cc",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "uuid",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1102,15 +1187,25 @@
                             "schema": {
                                 "properties": {
                                     "name": {
+                                        "description": "The name of the role",
                                         "type": "string",
-                                        "example": "admin"
+                                        "example": "role_name"
+                                    },
+                                    "description": {
+                                        "description": "The description of the role",
+                                        "type": "string",
+                                        "example": "role_description",
+                                        "nullable": true
                                     },
                                     "permissions": {
+                                        "description": "The uuid of the permissions",
                                         "type": "array",
                                         "items": {
                                             "type": "string",
-                                            "example": "view_users"
-                                        }
+                                            "example": "permission_uuid"
+                                        },
+                                        "collectionFormat": "multi",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -1120,7 +1215,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Role updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1136,19 +1231,16 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "role_uuid"
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "admin"
+                                                    "example": "role_name"
                                                 },
-                                                "permissions": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "view_users"
-                                                    }
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "role_description"
                                                 }
                                             },
                                             "type": "object"
@@ -1190,11 +1282,12 @@
                 "tags": [
                     "User - Role"
                 ],
-                "summary": "Delete a role",
-                "operationId": "3a092e5750a68a3b83c9a09df9bfa2ce",
+                "summary": "Delete role by uuid",
+                "description": "Delete role by uuid\n\nDelete role by uuid",
+                "operationId": "238217ff5f6faa6e88d82ef237b05d73",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "uuid",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1251,14 +1344,44 @@
                 ]
             }
         },
-        "/user/user": {
+        "/user": {
             "get": {
                 "tags": [
                     "User - User"
                 ],
-                "summary": "Get All User",
-                "description": "Get All User",
-                "operationId": "059c9773c6c673c52bcd6f68b66cac08",
+                "summary": "Retrieve a paginated list of users with their roles.",
+                "operationId": "54f7535666470878e227915ef2523686",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by user name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 5
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1267,71 +1390,60 @@
                                 "schema": {
                                     "properties": {
                                         "status_code": {
-                                            "type": "number",
+                                            "type": "integer",
                                             "example": 200
                                         },
                                         "message": {
                                             "type": "string",
                                             "example": "OK"
                                         },
-                                        "data": {
-                                            "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 200
-                                                },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "success"
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": null
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
                                         "meta": {
                                             "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 422
+                                                "total_data": {
+                                                    "type": "integer",
+                                                    "example": 100
                                                 },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "error"
+                                                "total_pages": {
+                                                    "type": "integer",
+                                                    "example": 20
                                                 },
-                                                "message": {
-                                                    "properties": {
-                                                        "email": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string",
-                                                                "example": "The email has already been taken."
-                                                            },
-                                                            "collectionFormat": "multi"
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 5
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "data": {
-                                            "type": "object",
-                                            "example": []
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "uuid"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "User Name"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "user@example.com"
+                                                    },
+                                                    "roles": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "Admin"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1345,114 +1457,111 @@
                         "bearer_token": []
                     }
                 ]
-            },
+            }
+        },
+        "/user/user": {
             "post": {
                 "tags": [
                     "User - User"
                 ],
                 "summary": "Create user",
+                "description": "Store a newly created user in storage.",
                 "operationId": "50a35eefdcf232184609f42f5071778e",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "": {
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "email": {
-                                                "type": "string"
-                                            },
-                                            "password": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Jalan Jalan 1",
+                                        "nullable": true
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "081234567890",
+                                        "nullable": true
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-01-01",
+                                        "nullable": true
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "male",
+                                        "nullable": true
+                                    },
+                                    "status_account": {
+                                        "type": "string",
+                                        "default": "active",
+                                        "example": "active",
+                                        "nullable": true
+                                    },
+                                    "company_id": {
+                                        "type": "string",
+                                        "example": "company_uuid",
+                                        "nullable": true
                                     }
                                 },
-                                "type": "object",
-                                "example": {
-                                    "name": "user",
-                                    "email": "user@mail.com",
-                                    "password": "password"
-                                }
+                                "type": "object"
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Valid credentials",
+                    "201": {
+                        "description": "User created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "meta": {
-                                            "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 200
-                                                },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "success"
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": null
-                                                }
-                                            },
-                                            "type": "object"
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
                                         },
                                         "data": {
                                             "properties": {
-                                                "user": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "number",
-                                                            "example": 2
-                                                        },
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "User"
-                                                        },
-                                                        "email": {
-                                                            "type": "string",
-                                                            "example": "user@test.com"
-                                                        },
-                                                        "email_verified_at": {
-                                                            "type": "string",
-                                                            "example": null
-                                                        },
-                                                        "updated_at": {
-                                                            "type": "string",
-                                                            "example": "2022-06-28 06:06:17"
-                                                        },
-                                                        "created_at": {
-                                                            "type": "string",
-                                                            "example": "2022-06-28 06:06:17"
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
-                                                "access_token": {
-                                                    "properties": {
-                                                        "token": {
-                                                            "type": "string",
-                                                            "example": "randomtokenasfhajskfhajf398rureuuhfdshk"
-                                                        },
-                                                        "type": {
-                                                            "type": "string",
-                                                            "example": "Bearer"
-                                                        },
-                                                        "expires_in": {
-                                                            "type": "number",
-                                                            "example": 3600
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "roles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Guest"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -1463,32 +1572,19 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Invalid credentials",
+                    "400": {
+                        "description": "Bad Request",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "meta": {
-                                            "properties": {
-                                                "code": {
-                                                    "type": "number",
-                                                    "example": 401
-                                                },
-                                                "status": {
-                                                    "type": "string",
-                                                    "example": "error"
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": "Incorrect username or password!"
-                                                }
-                                            },
-                                            "type": "object"
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 400
                                         },
-                                        "data": {
-                                            "type": "object",
-                                            "example": []
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
                                         }
                                     },
                                     "type": "object"
@@ -1510,6 +1606,7 @@
                     "User - User"
                 ],
                 "summary": "Get user by uuid",
+                "description": "Get user by uuid",
                 "operationId": "eb1743091b1ec72bdf812e2564e9f9cf",
                 "parameters": [
                     {
@@ -1529,7 +1626,7 @@
                                 "schema": {
                                     "properties": {
                                         "status_code": {
-                                            "type": "number",
+                                            "type": "integer",
                                             "example": 200
                                         },
                                         "message": {
@@ -1539,32 +1636,71 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "uuid": {
                                                     "type": "string",
-                                                    "example": "admin"
+                                                    "example": "user_uuid"
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Admin"
+                                                    "example": "John Doe"
                                                 },
                                                 "email": {
                                                     "type": "string",
-                                                    "example": "admin@localhost.com"
+                                                    "example": "john@example.com"
                                                 },
-                                                "email_verified_at": {
-                                                    "type": "string",
-                                                    "example": null
+                                                "details": {
+                                                    "properties": {
+                                                        "full_name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "example": "Address",
+                                                            "nullable": true
+                                                        },
+                                                        "avatar": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "phone_number": {
+                                                            "type": "string",
+                                                            "example": "1234567890",
+                                                            "nullable": true
+                                                        },
+                                                        "birth_date": {
+                                                            "type": "string",
+                                                            "example": "1990-01-01",
+                                                            "nullable": true
+                                                        },
+                                                        "gender": {
+                                                            "type": "string",
+                                                            "example": "male",
+                                                            "nullable": true
+                                                        },
+                                                        "status_account": {
+                                                            "type": "string",
+                                                            "example": "active",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "example": "2022-06-28 06:06:17"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "example": "2022-06-28 06:06:17"
+                                                "roles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Guest"
+                                                            },
+                                                            "uuid": {
+                                                                "type": "string",
+                                                                "example": "role_uuid"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -1582,7 +1718,7 @@
                                 "schema": {
                                     "properties": {
                                         "status_code": {
-                                            "type": "number",
+                                            "type": "integer",
                                             "example": 404
                                         },
                                         "message": {
@@ -1633,9 +1769,19 @@
                                         "example": "john@example.com"
                                     },
                                     "password": {
-                                        "description": "Password is required when you want to update the password",
                                         "type": "string",
-                                        "example": "password"
+                                        "example": "password",
+                                        "nullable": true
+                                    },
+                                    "company_id": {
+                                        "type": "string",
+                                        "example": "company_uuid",
+                                        "nullable": true
+                                    },
+                                    "role_id": {
+                                        "type": "string",
+                                        "example": "role_uuid",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -1651,7 +1797,7 @@
                                 "schema": {
                                     "properties": {
                                         "status_code": {
-                                            "type": "number",
+                                            "type": "integer",
                                             "example": 200
                                         },
                                         "message": {
@@ -1661,8 +1807,8 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "user_uuid"
                                                 },
                                                 "name": {
                                                     "type": "string",
@@ -1671,89 +1817,25 @@
                                                 "email": {
                                                     "type": "string",
                                                     "example": "john@example.com"
+                                                },
+                                                "roles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "role_uuid"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "role_name"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status_code": {
-                                            "type": "number",
-                                            "example": 404
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User Not Found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearer_token": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "User - User"
-                ],
-                "summary": "Update user status",
-                "operationId": "7404f55aa3ea68a38b7f7132fc28f759",
-                "parameters": [
-                    {
-                        "name": "uuid",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "status": {
-                                        "type": "string",
-                                        "example": "active"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status_code": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User update successfully"
                                         }
                                     },
                                     "type": "object"
@@ -1793,6 +1875,7 @@
                     "User - User"
                 ],
                 "summary": "Delete user by uuid",
+                "description": "Delete user by UUID",
                 "operationId": "c3f34dcb69650b2f3a846fd01c55c396",
                 "parameters": [
                     {
@@ -1818,6 +1901,91 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/user/user/{uuid}/status": {
+            "post": {
+                "tags": [
+                    "User - User"
+                ],
+                "summary": "Update user status",
+                "description": "Update user status",
+                "operationId": "f61166533f0d739a3a9b2e038869ee40",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "description": "The status of the user",
+                                        "type": "string",
+                                        "example": "active",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User update successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User update successfully"
                                         }
                                     },
                                     "type": "object"

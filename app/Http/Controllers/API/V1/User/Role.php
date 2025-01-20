@@ -15,43 +15,69 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Role extends Controller
 {
+   
     /**
      * Get All Role
      * 
+     * Get All Role
      * @OA\Get (
      *     path="/user/role",
      *     tags={"User - Role"},
      *     security={{"bearer_token":{}}},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search by role name",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Limit data per page",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             default=5
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page data",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             default=1
+     *         )
+     *     ),
      *      @OA\Response(
      *          response=200,
      *          description="Success",
      *          @OA\JsonContent(
-     *              @OA\Property(property="status_code", type="number", example=200),
+     *              @OA\Property(property="status_code", type="integer", example=200),
      *              @OA\Property(property="message", type="string", example="OK"),
-     *              @OA\Property(property="data", type="object",
-     *                  @OA\Property(property="code", type="number", example=200),
-     *                  @OA\Property(property="status", type="string", example="success"),
-     *                  @OA\Property(property="message", type="string", example=null),
-     *              ),
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Validation error",
-     *          @OA\JsonContent(
      *              @OA\Property(property="meta", type="object",
-     *                  @OA\Property(property="code", type="number", example=422),
-     *                  @OA\Property(property="status", type="string", example="error"),
-     *                  @OA\Property(property="message", type="object",
-     *                      @OA\Property(property="email", type="array", collectionFormat="multi",
-     *                        @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                          )
-     *                      ),
-     *                  ),
+     *                  @OA\Property(property="total_data", type="integer", example=10),
+     *                  @OA\Property(property="total_pages", type="integer", example=1),
+     *                  @OA\Property(property="current_page", type="integer", example=1),
+     *                  @OA\Property(property="per_page", type="integer", example=5)
      *              ),
-     *              @OA\Property(property="data", type="object", example={}),
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                      @OA\Property(property="id", type="string"),
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="permissions", type="array",
+     *                          @OA\Items(
+     *                              @OA\Property(property="id", type="string"),
+     *                              @OA\Property(property="label", type="string"),
+     *                          )
+     *                      )
+     *                  )
+     *              ),
      *          )
      *      )
      * )
@@ -102,88 +128,54 @@ class Role extends Controller
             'data' => $data
         ]);
     }
-
+    
     /**
-     * Create Role
-     * @OA\Post (
+     * @OA\Post(
      *     path="/user/role",
+     *     summary="Create role",
+     *     description="Create role",
      *     tags={"User - Role"},
      *     security={{"bearer_token":{}}},
      *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="name",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="level",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="company_id",
-     *                          type="integer"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="description",
-     *                          type="integer"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="permissions",
-     *                          type="object"
-     *                      ),
-     *                 ),
-     *                 example={
-     *                     "name":"Role",
-     *                     "level":1,
-     *                     "company_id":null,
-     *                     "description":"lorem ipsum dolor",
-     *                     "permissions":null
-     *                }
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", example="role_name", description="The name of the role"),
+     *             @OA\Property(property="level", type="integer", example=1, description="The level of the role", nullable=true),
+     *             @OA\Property(property="description", type="string", example="role_description", description="The description of the role", nullable=true),
+     *             @OA\Property(property="company_id", type="string", example="company_uuid", description="The uuid of the company", nullable=true),
+     *             @OA\Property(property="permissions", type="array", collectionFormat="multi", @OA\Items(type="string", example="permission_uuid"), description="The uuid of the permissions", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Role created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="OK"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="string", example="role_uuid"),
+     *                 @OA\Property(property="name", type="string", example="role_name"),
+     *                 @OA\Property(property="level", type="integer", example=1),
+     *                 @OA\Property(property="description", type="string", example="role_description")
      *             )
      *         )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Valid credentials",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="meta", type="object",
-     *                  @OA\Property(property="code", type="number", example=200),
-     *                  @OA\Property(property="status", type="string", example="success"),
-     *                  @OA\Property(property="message", type="string", example=null),
-     *              ),
-     *              @OA\Property(property="data", type="object",
-     *                  @OA\Property(property="user", type="object",
-     *                      @OA\Property(property="id", type="number", example=2),
-     *                      @OA\Property(property="name", type="string", example="User"),
-     *                      @OA\Property(property="email", type="string", example="user@test.com"),
-     *                      @OA\Property(property="email_verified_at", type="string", example=null),
-     *                      @OA\Property(property="updated_at", type="string", example="2022-06-28 06:06:17"),
-     *                      @OA\Property(property="created_at", type="string", example="2022-06-28 06:06:17"),
-     *                  ),
-     *                  @OA\Property(property="access_token", type="object",
-     *                      @OA\Property(property="token", type="string", example="randomtokenasfhajskfhajf398rureuuhfdshk"),
-     *                      @OA\Property(property="type", type="string", example="Bearer"),
-     *                      @OA\Property(property="expires_in", type="number", example=3600),
-     *                  ),
-     *              ),
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Invalid credentials",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="meta", type="object",
-     *                  @OA\Property(property="code", type="number", example=401),
-     *                  @OA\Property(property="status", type="string", example="error"),
-     *                  @OA\Property(property="message", type="string", example="Incorrect username or password!"),
-     *              ),
-     *              @OA\Property(property="data", type="object", example={}),
-     *          )
-     *      )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=401),
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=403),
+     *             @OA\Property(property="message", type="string", example="You are not allowed to create a role with a higher level than your own")
+     *         )
+     *     ),
      * )
      */
     public function store(AddRoleRequest $request)
@@ -229,6 +221,7 @@ class Role extends Controller
         ], Response::HTTP_CREATED);
     }
 
+    
     /**
      * @OA\Get(
      *     path="/user/role/{uuid}",
@@ -243,17 +236,21 @@ class Role extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="Role found",
      *         @OA\JsonContent(
      *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="OK"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="uuid", type="string", example="admin"),
+     *                 @OA\Property(property="id", type="string", example="role_uuid"),
+     *                 @OA\Property(property="name", type="string", example="role_name"),
+     *                 @OA\Property(property="description", type="string", example="role_description"),
      *                 @OA\Property(property="permissions", type="array",
-     *                     @OA\Items(type="string", example="view_users")
-     *                 ),
-     *             ),
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="string", example="permission_uuid"),
+     *                         @OA\Property(property="label", type="string", example="permission_label"),
+     *                     )
+     *                 )
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -305,14 +302,17 @@ class Role extends Controller
         ]);
     }
 
+    
     /**
+     * Update the specified resource in storage.
+     *
      * @OA\Put(
-     *     path="/user/role/{name}",
-     *     summary="Update a role by name",
+     *     path="/user/role/{uuid}",
+     *     summary="Update role by uuid",
      *     tags={"User - Role"},
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
-     *         name="name",
+     *         name="uuid",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="string")
@@ -320,25 +320,23 @@ class Role extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="admin"),
-     *             @OA\Property(property="permissions", type="array",
-     *                 @OA\Items(type="string", example="view_users")
-     *             )
+     *             type="object",
+     *             @OA\Property(property="name", type="string", example="role_name", description="The name of the role"),
+     *             @OA\Property(property="description", type="string", example="role_description", description="The description of the role", nullable=true),
+     *             @OA\Property(property="permissions", type="array", collectionFormat="multi", @OA\Items(type="string", example="permission_uuid"), description="The uuid of the permissions", nullable=true)
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="Role updated successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="status_code", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="Role updated successfully"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="admin"),
-     *                 @OA\Property(property="permissions", type="array",
-     *                     @OA\Items(type="string", example="view_users")
-     *                 ),
-     *             ),
+     *                 @OA\Property(property="id", type="string", example="role_uuid"),
+     *                 @OA\Property(property="name", type="string", example="role_name"),
+     *                 @OA\Property(property="description", type="string", example="role_description")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -384,15 +382,18 @@ class Role extends Controller
             'data' => $role
         ], Response::HTTP_OK);
     }
-
+    
     /**
+     * Delete role by uuid
+     * 
+     * Delete role by uuid
      * @OA\Delete(
-     *     path="/user/role/{name}",
-     *     summary="Delete a role",
+     *     path="/user/role/{uuid}",
+     *     summary="Delete role by uuid",
      *     tags={"User - Role"},
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
-     *         name="name",
+     *         name="uuid",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="string")

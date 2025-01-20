@@ -15,136 +15,56 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Basic extends Controller
 {
+
     /**
      * @OA\Post(
      *     path="/auth/basic/login",
-     *     summary="Authenticate User and Generate Token",
+     *     summary="Login user",
+     *     description="Login user and return token",
+     *     operationId="login",
      *     tags={"Authentication - Basic"},
      *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 type="object",
-     *                 @OA\Property(
-     *                     property="email",
-     *                     type="string",
-     *                     description="The email address of the user",
-     *                     example="developer@example.com"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="password",
-     *                     type="string",
-     *                     description="The password of the user",
-     *                     example="password"
+     *         description="Input data format",
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="email", type="string", example="user1@mail.com", description="The email of the user"),
+     *             @OA\Property(property="password", type="string", example="123456", description="The password of the user")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status_code", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="OK"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="token", type="string", example="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTYyNjQ0NjM3NCwiZXhwIjoxNjI2NDUwOTc0LCJuYmYiOjE2MjY0NDYzNzQsImp0aSI6IjM2YmM3MzcxNWZiOGJmMTciLCJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaGFuIjoiMjMwfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"),
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", example="user1@mail.com"),
+     *                     @OA\Property(property="company_id", type="integer", example=1),
+     *                     @OA\Property(property="permissions", type="array", collectionFormat="multi", @OA\Items(type="string", example="view_users")),
+     *                     @OA\Property(property="details", type="object",
+     *                         @OA\Property(property="full_name", type="string", example="John Doe"),
+     *                         @OA\Property(property="address", type="string", example="Jl. Jend. Sudirman No. 1, Jakarta Pusat"),
+     *                         @OA\Property(property="avatar", type="string", example="https://example.com/avatar.jpg"),
+     *                         @OA\Property(property="phone_number", type="string", example="081234567890"),
+     *                         @OA\Property(property="birth_date", type="string", example="1990-01-01"),
+     *                         @OA\Property(property="gender", type="string", example="male"),
+     *                         @OA\Property(property="status_account", type="string", example="active")
+     *                     )
      *                 )
      *             )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Login successful and token generated",
+     *         response=401,
+     *         description="Validation error",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                 property="status_code",
-     *                 type="integer",
-     *                 example=200
-     *             ),
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Login successful"
-     *             ),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(
-     *                     property="token",
-     *                     type="string",
-     *                     example="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-     *                 ),
-     *                 @OA\Property(
-     *                     property="user",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="integer",
-     *                         example=1
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         type="string",
-     *                         example="John Doe"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="email",
-     *                         type="string",
-     *                         example="admin@gmail.com"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="company_id",
-     *                         type="integer",
-     *                         example=1001
-     *                     ),
-     *                     @OA\Property(
-     *                      property="details",
-     *                      type="object",
-     *                        @OA\Property(
-     *                            property="full_name",
-     *                            type="string",
-     *                            example="Johnathan Doe"
-     *                        ),
-     *                        @OA\Property(
-     *                            property="address",
-     *                            type="string",
-     *                             example="123 Main St, Anytown, USA"
-     *                         ),
-     *                         @OA\Property(
-     *                            property="avatar",
-     *                            type="string",
-     *                            example="https://example.com/storage/avatars/avatar123.jpg"
-     *                        ),
-     *                        @OA\Property(
-     *                            property="phone_number",
-     *                            type="string",
-     *                            example="+1234567890"
-     *                        ),
-     *                        @OA\Property(
-     *                           property="birth_date",
-     *                             type="string",
-     *                             format="date",
-     *                             example="1990-01-01"
-     *                        ),
-     *                        @OA\Property(
-     *                             property="gender",
-     *                             type="string",
-     *                             example="male"
-     *                        ),
-     *                        @OA\Property(
-     *                            property="status_account",
-     *                             type="string",
-     *                             example="active"
-     *                         )
-     *                      )
-     *                 ),
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Invalid credentials",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                 property="status_code",
-     *                 type="integer",
-     *                 example=404
-     *             ),
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Invalid credentials"
-     *             )
+     *             @OA\Property(property="status_code", type="integer", example=401),
+     *             @OA\Property(property="message", type="string", example="Unauthorized"),
+     *             @OA\Property(property="data", type="object", example={})
      *         )
      *     )
      * )
@@ -193,64 +113,49 @@ class Basic extends Controller
     }
 
     /**
-     * @OA\Post(
+     * Create a new user and assign the default role for the company
+     * 
+     * @OA\Post (
      *     path="/auth/basic/register",
-     *     summary="Authentication Register",
      *     tags={"Authentication - Basic"},
      *     @OA\RequestBody(
-     *         required=true,
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *                 type="object",
      *                 @OA\Property(
      *                     property="name",
      *                     type="string",
-     *                     description="The name of the user",
      *                     example="John Doe"
      *                 ),
      *                 @OA\Property(
      *                     property="email",
      *                     type="string",
-     *                     description="The email of the user",
      *                     example="john.doe@example.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
-     *                     description="The password for the user account",
      *                     example="password123"
      *                 ),
      *                 @OA\Property(
      *                     property="password_confirmation",
      *                     type="string",
-     *                     description="Password confirmation",
      *                     example="password123"
      *                 ),
      *                 @OA\Property(
      *                     property="full_name",
      *                     type="string",
-     *                     description="The full name of the user",
      *                     example="Johnathan Doe"
      *                 ),
      *                 @OA\Property(
      *                     property="address",
      *                     type="string",
-     *                     description="The address of the user",
      *                     example="123 Main Street, Springfield",
      *                     nullable=true
      *                 ),
      *                 @OA\Property(
-     *                     property="avatar",
-     *                     type="string",
-     *                     format="binary",
-     *                     description="Avatar image file",
-     *                     example="string (binary file)"
-     *                 ),
-     *                 @OA\Property(
      *                     property="phone_number",
      *                     type="string",
-     *                     description="The phone number of the user",
      *                     example="1234567890",
      *                     nullable=true
      *                 ),
@@ -258,7 +163,6 @@ class Basic extends Controller
      *                     property="birth_date",
      *                     type="string",
      *                     format="date",
-     *                     description="The birth date of the user",
      *                     example="1990-01-01",
      *                     nullable=true
      *                 ),
@@ -266,52 +170,86 @@ class Basic extends Controller
      *                     property="gender",
      *                     type="string",
      *                     enum={"male", "female", "other"},
-     *                     description="The gender of the user",
      *                     example="male",
      *                     nullable=true
      *                 ),
      *                 @OA\Property(
      *                     property="status_account",
      *                     type="string",
-     *                     description="The status of the account",
+     *                     enum={"active", "inactive"},
      *                     example="active",
      *                     nullable=true
-     *                 )
+     *                 ),
+     *                 @OA\Property(
+     *                     property="avatar",
+     *                     type="string",
+     *                     format="binary",
+     *                     example="string (binary file)"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="company_id",
+     *                     type="string",
+     *                     example="d7ea6c3a-9a0a-4c6f-8df4-6c3cc9b89ea9"
+     *                 ),
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="User created successfully",
+     *         description="User Created Successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="integer", example=201),
-     *             @OA\Property(property="message", type="string", example="User Created Successfully")
+     *             type="object",
+     *             @OA\Property(
+     *                 property="status_code",
+     *                 type="integer",
+     *                 example=201
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User Created Successfully"
+     *             )
      *         )
      *     ),
      *     @OA\Response(
-     *          response=422,
-     *          description="Validation error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The name field is required. (and 1 more error)"),
-     *              @OA\Property(property="errors", type="object",
-     *                  @OA\Property(property="name", type="object",
-     *                      @OA\Property(property="name", type="string", example="The name field is required."),
-     *                  ),
-     *                  @OA\Property(property="email", type="object",
-     *                      @OA\Property(property="email", type="string", example="The email field is required."),
-     *                  ),
-     *              ),
-     *          )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error",
+     *         response=422,
+     *         description="Validation error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="status_code", type="integer", example=500),
-     *             @OA\Property(property="message", type="string", example="Error occurred while creating user."),
-     *             @OA\Property(property="error", type="string")
-     *         )
-     *     )
+     *             type="object",
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="code",
+     *                     type="number",
+     *                     example=422
+     *                 ),
+     *                 @OA\Property(
+     *                     property="status",
+     *                     type="string",
+     *                     example="error"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="message",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="array",
+     *                         collectionFormat="multi",
+     *                         @OA\Items(
+     *                             type="string",
+     *                             example="The email has already been taken."
+     *                         ),
+     *                     ),
+     *                 ),
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 example={},
+     *             ),
+     *         ),
+     *     ),
      * )
      */
     public function register(RegisterRequest $request)
@@ -363,8 +301,7 @@ class Basic extends Controller
         ], Response::HTTP_CREATED);
 
     }
-
-
+    
     protected function respondWithToken($token, $user)
     {
         return response()->json([
