@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\Authentication\Basic;
 use App\Http\Controllers\API\V1\User\Permission;
+use App\Http\Controllers\API\V1\User\Profile;
 use App\Http\Controllers\API\V1\User\Role;
 use App\Http\Controllers\API\V1\User\User;
 use Illuminate\Http\Request;
@@ -17,6 +18,10 @@ Route::prefix('v1')->group(function () {
         Route::post('basic/register', [Basic::class, 'register'])->middleware('guest'); //create
     });
     Route::prefix('user')->middleware('auth:api')->group(function () {
+        Route::prefix('profile')->group(function () {
+            Route::get('', [Profile::class, 'index']); //list
+            Route::put('', [Profile::class, 'update']); //update
+        });
         Route::prefix('user')->group(function () {
             Route::get('', [User::class, 'index'])->middleware('permission:view-users,api'); //list
             Route::post('', [User::class, 'store'])->middleware('permission:create-users,api'); //create

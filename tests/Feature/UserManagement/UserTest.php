@@ -247,6 +247,7 @@ class UserTest extends DataTestCase
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
             'password' => 'password123',
+            'password_confirmation' => 'password123',
         ];
         $response = $this->actingAs($this->admin, 'api')
             ->putJson($this->base_url . '/' . $this->admin->uuid, $updatedData);
@@ -274,6 +275,7 @@ class UserTest extends DataTestCase
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
             'password' => 'password123',
+            'password_confirmation' => 'password123',
             'company_id' => $company->uuid
         ];
         $response = $this->actingAs($this->admin, 'api')
@@ -300,7 +302,9 @@ class UserTest extends DataTestCase
     {
         $updatedData = [
             'name' => 'Updated Name',
-            'email' => 'updated@example.com'
+            'email' => 'updated@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ];
         $response = $this->actingAs($this->admin, 'api')
             ->putJson($this->base_url . '/' . $this->admin->uuid . '1', $updatedData);

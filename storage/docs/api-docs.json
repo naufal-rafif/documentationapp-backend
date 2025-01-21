@@ -44,12 +44,12 @@
                                     "email": {
                                         "description": "The email of the user",
                                         "type": "string",
-                                        "example": "user1@mail.com"
+                                        "example": "developer@example.com"
                                     },
                                     "password": {
                                         "description": "The password of the user",
                                         "type": "string",
-                                        "example": "123456"
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"
@@ -790,6 +790,241 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Permission Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "User - Profile"
+                ],
+                "summary": "Get authenticated user profile",
+                "description": "Get authenticated user profile",
+                "operationId": "b31b3486e62c3a6170ab1d72fec307cb",
+                "responses": {
+                    "200": {
+                        "description": "User profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "user_uuid"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "details": {
+                                                    "properties": {
+                                                        "full_name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "example": "Jalan Jalan 1",
+                                                            "nullable": true
+                                                        },
+                                                        "phone_number": {
+                                                            "type": "string",
+                                                            "example": "081234567890",
+                                                            "nullable": true
+                                                        },
+                                                        "birth_date": {
+                                                            "type": "string",
+                                                            "example": "1990-01-01",
+                                                            "nullable": true
+                                                        },
+                                                        "gender": {
+                                                            "type": "string",
+                                                            "example": "male",
+                                                            "nullable": true
+                                                        },
+                                                        "status_account": {
+                                                            "type": "string",
+                                                            "example": "active",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User - Profile"
+                ],
+                "summary": "Update authenticated user profile",
+                "description": "Update authenticated user profile",
+                "operationId": "89a454a77f7fc3fa5fad426ea9cf0ec3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password",
+                                        "nullable": true
+                                    },
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "John Doe",
+                                        "nullable": true
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Jalan Jalan 1",
+                                        "nullable": true
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "image.jpg",
+                                        "nullable": true
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "081234567890",
+                                        "nullable": true
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "1990-01-01",
+                                        "nullable": true
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "male",
+                                        "nullable": true
+                                    },
+                                    "status_account": {
+                                        "type": "string",
+                                        "example": "active",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile Updated"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "user_uuid"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "details": {
+                                                    "properties": {
+                                                        "full_name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "example": "Jalan Jalan 1",
+                                                            "nullable": true
+                                                        },
+                                                        "phone_number": {
+                                                            "type": "string",
+                                                            "example": "081234567890",
+                                                            "nullable": true
+                                                        },
+                                                        "birth_date": {
+                                                            "type": "string",
+                                                            "example": "1990-01-01",
+                                                            "nullable": true
+                                                        },
+                                                        "gender": {
+                                                            "type": "string",
+                                                            "example": "male",
+                                                            "nullable": true
+                                                        },
+                                                        "status_account": {
+                                                            "type": "string",
+                                                            "example": "active",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2034,6 +2269,10 @@
         {
             "name": "Authentication - Basic",
             "description": "Authentication - Basic"
+        },
+        {
+            "name": "User - Profile",
+            "description": "User - Profile"
         },
         {
             "name": "User - User",

@@ -27,16 +27,24 @@ sh stub/prod/setup.sh
 - Please consider use default container name logic on docker-compose.yml to run bash script (It use **COINTAINER_NAME** variable on .env file)
 - It's free to change database like mysql, mariadb, postgres, etc. But we just use Postgres in this starter kit for example.
 
+### Testing
+
+```
+php artisan test --coverage-html storage/app/public/coverage
+```
+
 ## Just a Note
 
 You can directly show the error on the storage/logs file
 
 test user can be found at database/seeders/UserSeeder.php 
 
+code coverage can be found at <base_url>/storage/coverage/Http/index.html
+
 ## Progress
 - [x] Docker Config Available
 - [x] API Documentation (/documentation)
 - [x] Role Permission
-- [X] Testing
+- [x] Testing
 
 ## Happy Code !

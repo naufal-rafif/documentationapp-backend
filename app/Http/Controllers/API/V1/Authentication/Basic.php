@@ -28,8 +28,8 @@ class Basic extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="email", type="string", example="user1@mail.com", description="The email of the user"),
-     *             @OA\Property(property="password", type="string", example="123456", description="The password of the user")
+     *             @OA\Property(property="email", type="string", example="developer@example.com", description="The email of the user"),
+     *             @OA\Property(property="password", type="string", example="password", description="The password of the user")
      *         )
      *     ),
      *     @OA\Response(
