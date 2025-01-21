@@ -10,6 +10,7 @@ use App\Models\User as UserModel;
 use App\Models\UserDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
 use Spatie\Permission\Models\Role;
@@ -82,7 +83,7 @@ class User extends Controller
         $page = $request->page ?? 1;
         $offset = ($page - 1) * $limit;
         $data = UserModel::with('roles')->skip($offset)
-            ->take($limit);
+            ->take($limit)->where('id','!=', Auth::user()->id);
         if ($request->search) {
             $data->whereLike('name', "%$request->search%");
         }

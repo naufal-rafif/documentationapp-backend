@@ -54,9 +54,10 @@ class Permission extends Controller
      */
     public function index(Request $request)
     {
+        $user_level = Auth::user()->roles[0]->level;
         $permissions = PermissionGroupModel::select('name', 'description', 'id')->with([
-            'permissions' => function ($query) use ($request) {
-                $query->select(['uuid', 'name', 'label', 'description', 'group_id']);
+            'permissions' => function ($query) use ($request, $user_level) {
+                $query->select(['uuid', 'name', 'label', 'description', 'group_id'])->where('level','>', $user_level);
                 if ($request->search) {
                     $query->whereLike('label', "%$request->search%");
                 }

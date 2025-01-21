@@ -98,6 +98,7 @@ class Basic extends Controller
             'email' => $user->email,
             'company_id' => $user->company_id,
             'permissions' => $user->permissions,
+            'roles' => $user->roles->pluck('name'),
             'details' => [
                 'full_name' => $user->details->full_name,
                 'address' => $user->details->address,
@@ -105,7 +106,7 @@ class Basic extends Controller
                 'phone_number' => $user->details->phone_number,
                 'birth_date' => $user->details->birth_date,
                 'gender' => $user->details->gender,
-                'status_account' => $user->details->status_account
+                'status_account' => $user->details->status_account,
             ]
         ];
 
