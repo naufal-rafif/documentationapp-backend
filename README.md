@@ -35,7 +35,7 @@ test user can be found at database/seeders/UserSeeder.php
 
 ## Progress
 - [x] Docker Config Available
-- [x] API Documentation (base_url/api/documentation)
+- [x] API Documentation (/documentation)
 - [x] Role Permission
 - [X] Testing
 
