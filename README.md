@@ -33,6 +33,11 @@ sh stub/prod/setup.sh
 php artisan test --coverage-html storage/app/public/coverage
 ```
 
+### Generate Documentation
+```
+see [L5-Swagger Documentation](https://github.com/DarkaOnLine/L5-Swagger/wiki/Installation-&-Configuration)
+```
+
 ## Just a Note
 
 You can directly show the error on the storage/logs file

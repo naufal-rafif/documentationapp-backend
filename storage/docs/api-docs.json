@@ -2259,24 +2259,24 @@
     },
     "tags": [
         {
-            "name": "User - Role",
-            "description": "Endpoints related to managing roles. Use these endpoints to create, update, delete, or fetch roles."
+            "name": "Authentication - Basic",
+            "description": "Endpoints related to authentication. Use these endpoints to authenticate users and obtain an access token."
         },
         {
             "name": "User - Permission",
             "description": "Endpoints related to managing permissions. Use these endpoints to create, update, delete, or fetch permissions."
         },
         {
-            "name": "Authentication - Basic",
-            "description": "Authentication - Basic"
+            "name": "User - Profile",
+            "description": "Endpoints related to managing profiles. Use these endpoints to update or fetch profiles."
         },
         {
-            "name": "User - Profile",
-            "description": "User - Profile"
+            "name": "User - Role",
+            "description": "Endpoints related to managing roles. Use these endpoints to create, update, delete, or fetch roles."
         },
         {
             "name": "User - User",
-            "description": "User - User"
+            "description": "Endpoints related to managing users. Use these endpoints to create, update, delete, or fetch users."
         }
     ],
     "components": {
