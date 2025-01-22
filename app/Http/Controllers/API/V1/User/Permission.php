@@ -62,7 +62,9 @@ class Permission extends Controller
                     $query->whereLike('label', "%$request->search%");
                 }
             },
-        ])->get();
+        ])->get()->filter(function ($permission_group) {
+            return $permission_group->permissions->count() > 0;
+        });
 
         $permissions = $permissions->map(function ($permission) {
             return [

@@ -37,14 +37,65 @@ class UserSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Admin',
+                'name' => 'Super Admin',
                 'role' => 'Super Admin',
+                'email' => 'superadmin@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'SuperAdmin',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Admin',
+                'role' => 'Admin',
                 'email' => 'admin@example.com',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
                     'full_name' => 'Admin',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Staff',
+                'role' => 'Staff',
+                'email' => 'staff@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Staff',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest',
+                'role' => 'Guest',
+                'email' => 'guest@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest',
                     'address' => null,
                     'avatar' => null,
                     'phone_number' => '08123456789',

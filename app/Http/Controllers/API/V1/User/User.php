@@ -82,8 +82,13 @@ class User extends Controller
         $limit = $request->limit ?? 5;
         $page = $request->page ?? 1;
         $offset = ($page - 1) * $limit;
+        $user_level = Auth::user()->roles[0]->level;
         $data = UserModel::with('roles')->skip($offset)
-            ->take($limit)->where('id','!=', Auth::user()->id);
+            ->take($limit)
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('users.id','!=', Auth::user()->id)
+            ->where('roles.level', '>', $user_level);
         if ($request->search) {
             $data->whereLike('name', "%$request->search%");
         }
