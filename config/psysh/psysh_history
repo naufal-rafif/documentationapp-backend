@@ -16,3 +16,5 @@ clear
 use\040App\134Models\134PermissionGroup;
 PermissionGroup::create(['name'\040=>\040'User','description'\040=>\040'For\040User\040Purpose']);
 exit
+use\040Spatie\134Permission\134Models\134Permission;
+Permission::whereNotIn('level',[0,1,2])->get();

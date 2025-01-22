@@ -181,7 +181,7 @@ class Role extends Controller
     public function store(AddRoleRequest $request)
     {
         $user_level = Auth::user()->roles[0]->level;
-        if (isset($request->level) && $user_level > $request->level) {
+        if (isset($request->level) && $user_level >= $request->level) {
             return response()->json([
                 'status_code' => Response::HTTP_FORBIDDEN,
                 'message' => 'You are not allowed to create a role with a higher level than your own',
@@ -271,7 +271,7 @@ class Role extends Controller
                 $query->select(['uuid', 'name', 'label', 'description', 'group_id']);
             }
         ])
-            ->where('level', '>', $role_level)
+            ->where('level', '>=', $role_level)
             ->where(['uuid' => $uuid, 'guard_name' => 'api'])
             ->first();
 

@@ -90,7 +90,7 @@ class User extends Controller
             ->where('users.id','!=', Auth::user()->id)
             ->where('roles.level', '>', $user_level);
         if ($request->search) {
-            $data->whereLike('name', "%$request->search%");
+            $data->whereLike('users.name', "%$request->search%");
         }
 
         $total_data = UserModel::count();
