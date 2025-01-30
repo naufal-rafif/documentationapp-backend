@@ -23,24 +23,24 @@ Route::prefix('v1')->group(function () {
             Route::put('', [Profile::class, 'update']); //update
         });
         Route::prefix('user')->group(function () {
-            Route::get('', [User::class, 'index'])->middleware('permission:view-users,api'); //list
+            Route::get('', [User::class, 'index'])->middleware('permission:access-users,api'); //list
             Route::post('', [User::class, 'store'])->middleware('permission:create-users,api'); //create
-            Route::get('/{uuid}', [User::class, 'show'])->middleware('permission:view-users,api'); //show
+            Route::get('/{uuid}', [User::class, 'show'])->middleware('permission:access-users,api'); //show
             Route::put('/{uuid}', [User::class, 'update'])->middleware('permission:edit-users,api'); //update
             Route::post('/{uuid}', [User::class, 'updateStatus'])->middleware('permission:delete-users,api'); //update
             Route::delete('/{uuid}', [User::class, 'destroy'])->middleware('permission:delete-users,api'); //delete
         });
         Route::prefix('role')->group(function () {
-            Route::get('', [Role::class, 'index'])->middleware('permission:view-roles,api'); //list
+            Route::get('', [Role::class, 'index'])->middleware('permission:access-roles,api'); //list
             Route::post('', [Role::class, 'store'])->middleware('permission:create-roles,api'); //create
-            Route::get('/{uuid}', [Role::class, 'show'])->middleware('permission:view-roles,api');//show
+            Route::get('/{uuid}', [Role::class, 'show'])->middleware('permission:access-roles,api');//show
             Route::put('/{uuid}', [Role::class, 'update'])->middleware('permission:edit-roles,api'); //update
             Route::delete('/{uuid}', [Role::class, 'destroy'])->middleware('permission:delete-roles,api'); //delete
         });
         Route::prefix('permission')->group(function () {
-            Route::get('', [Permission::class, 'index'])->middleware('permission:view-permissions,api'); //list
+            Route::get('', [Permission::class, 'index'])->middleware('permission:access-permissions,api'); //list
             Route::post('', [Permission::class, 'store'])->middleware('permission:create-permissions,api'); //create
-            Route::get('/{name}', [Permission::class, 'show'])->middleware('permission:view-permissions,api'); //show
+            Route::get('/{name}', [Permission::class, 'show'])->middleware('permission:access-permissions,api'); //show
             Route::put('/{name}', [Permission::class, 'update'])->middleware('permission:edit-permissions,api'); //update
             Route::delete('/{name}', [Permission::class, 'destroy'])->middleware('permission:delete-permissions,api'); //delete
         });

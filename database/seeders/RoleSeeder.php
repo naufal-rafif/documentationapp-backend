@@ -57,6 +57,46 @@ class RoleSeeder extends Seeder
                 'level' => 10,
                 'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5,6,7,8,9])->get()
             ],
+            [
+                'name' => 'Lorem',
+                'guard_name' => 'api',
+                'company_id' => null,
+                'description' => 'For Lorem',
+                'level' => 10,
+                'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5,6,7,8,9])->get()
+            ],
+            [
+                'name' => 'Ipsum',
+                'guard_name' => 'api',
+                'company_id' => null,
+                'description' => 'For Ipsum',
+                'level' => 10,
+                'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5,6,7,8,9])->get()
+            ],
+            [
+                'name' => 'Dolor',
+                'guard_name' => 'api',
+                'company_id' => null,
+                'description' => 'For Dolor',
+                'level' => 10,
+                'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5,6,7,8,9])->get()
+            ],
+            [
+                'name' => 'Sit',
+                'guard_name' => 'api',
+                'company_id' => null,
+                'description' => 'For Sit',
+                'level' => 10,
+                'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5,6,7,8,9])->get()
+            ],
+            [
+                'name' => 'Amet',
+                'guard_name' => 'api',
+                'company_id' => null,
+                'description' => 'For Amet',
+                'level' => 10,
+                'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5,6,7,8,9])->get()
+            ],
 
         ];
 

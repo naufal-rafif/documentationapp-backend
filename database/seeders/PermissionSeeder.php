@@ -18,7 +18,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             // User Management
-            ['name' => 'access-users', 'guard_name' => 'api', 'group_id' => 'User', 'label' => 'View User', 'description' => 'For View User', 'level' => 5],
+            ['name' => 'access-users', 'guard_name' => 'api', 'group_id' => 'User', 'label' => 'Access User', 'description' => 'For Access User', 'level' => 5],
             ['name' => 'view-users', 'guard_name' => 'api', 'group_id' => 'User', 'label' => 'View User', 'description' => 'For View User', 'level' => 5],
             ['name' => 'create-users', 'guard_name' => 'api', 'group_id' => 'User', 'label' => 'Create User', 'description' => 'For Create User', 'level' => 5],
             ['name' => 'edit-users', 'guard_name' => 'api', 'group_id' => 'User', 'label' => 'Edit User', 'description' => 'For Edit User', 'level' => 5],
@@ -27,13 +27,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'edit-profile', 'guard_name' => 'api', 'group_id' => 'User', 'label' => 'Edit Profile', 'description' => 'For Edit Profile', 'level' => 10],
 
             // Role Management
-            ['name' => 'view-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'View Role', 'description' => 'For View Role', 'level' => 5],
-            ['name' => 'access-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'Access Role', 'description' => 'For Access Role', 'level' => 2],
+            ['name' => 'access-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'Access Role', 'description' => 'For Access Role', 'level' => 5],
+            ['name' => 'view-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'View Role', 'description' => 'For View Role', 'level' => 2],
             ['name' => 'create-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'Create Role', 'description' => 'For Create Role', 'level' => 2],
             ['name' => 'edit-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'Edit Role', 'description' => 'For Edit Role', 'level' => 2],
             ['name' => 'delete-roles', 'guard_name' => 'api', 'group_id' => 'Role', 'label' => 'Delete Role', 'description' => 'For Delete Role', 'level' => 2],
 
             // Permission Management
+            ['name' => 'access-permissions', 'guard_name' => 'api', 'group_id' => 'Permission', 'label' => 'Access Permission', 'description' => 'For Access Permission', 'level' => 2],
             ['name' => 'view-permissions', 'guard_name' => 'api', 'group_id' => 'Permission', 'label' => 'View Permission', 'description' => 'For View Permission', 'level' => 2],
             ['name' => 'create-permissions', 'guard_name' => 'api', 'group_id' => 'Permission', 'label' => 'Create Permission', 'description' => 'For Create Permission', 'level' => 0],
             ['name' => 'edit-permissions', 'guard_name' => 'api', 'group_id' => 'Permission', 'label' => 'Edit Permission', 'description' => 'For Edit Permission', 'level' => 0],

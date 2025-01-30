@@ -103,6 +103,125 @@ class UserSeeder extends Seeder
                     'gender' => 'male',
                     'status_account' => 'active'
                 ]
+            ],
+            [
+                'name' => 'Guest 1',
+                'role' => 'Guest',
+                'email' => 'guest1@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest1',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest 2',
+                'role' => 'Guest',
+                'email' => 'guest2@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest2',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest 3',
+                'role' => 'Guest',
+                'email' => 'guest3@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest3',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest 4',
+                'role' => 'Guest',
+                'email' => 'guest4@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest4',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest 5',
+                'role' => 'Guest',
+                'email' => 'guest5@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest5',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest 6',
+                'role' => 'Guest',
+                'email' => 'guest6@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest 6',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
+            ],
+            [
+                'name' => 'Guest 7',
+                'role' => 'Guest',
+                'email' => 'guest7@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'company_id' => Company::where('name', 'Default')->first()->id,
+                'details' => [
+                    'full_name' => 'Guest7',
+                    'address' => null,
+                    'avatar' => null,
+                    'phone_number' => '08123456789',
+                    'birth_date' => '1990-01-01',
+                    'gender' => 'male',
+                    'status_account' => 'active'
+                ]
             ]
         ];
 
