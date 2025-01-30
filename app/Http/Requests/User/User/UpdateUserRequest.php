@@ -22,9 +22,10 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = User::where('uuid', $this->route(param: 'uuid'))->value('id');
         return [
             'name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255|unique:users,email',
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . $userId,
             'password' => 'nullable|string|min:6|confirmed',
             'full_name' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',

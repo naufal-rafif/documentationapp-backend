@@ -87,14 +87,22 @@ class User extends Controller
             ->take($limit)
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('users.id','!=', Auth::user()->id)
-            ->where('roles.level', '>', $user_level);
+            ->where('users.id', '!=', Auth::user()->id)
+            ->where('roles.level', '>', $user_level)
+            ->select('users.*');
         if ($request->search) {
             $data->whereLike('users.name', "%$request->search%");
         }
 
-        $total_data = UserModel::count();
-        $data = $data->get();
+        $total_data = UserModel::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('roles.level', '>', $user_level)
+            ->where('users.id', '!=', Auth::user()->id)
+            ->when($request->search, function ($query) use ($request) {
+                return $query->whereLike('users.name', "%$request->search%");
+            })
+            ->count();
+        $data = $data->orderBy('id', 'desc')->get();
         $data = $data->map(function ($item) {
             return [
                 'id' => $item->uuid,
@@ -267,7 +275,12 @@ class User extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'details' => $user->details,
-            'roles' => $user->roles->select('name', 'uuid')->toArray()
+            'roles' => $user->roles->map(function ($role) {
+                return [
+                    'name' => $role->name,
+                    'id' => $role->uuid
+                ];
+            })->toArray()
         ];
         return response()->json([
             'status_code' => Response::HTTP_OK,
@@ -351,7 +364,7 @@ class User extends Controller
         }
 
         $role = Role::where('uuid', $request->role_id ?? $default_role)->where('company_id', $company?->id ?? null)->first();
-        $user->assignRole($role);
+        $user->syncRoles($role);
 
         return response()->json([
             'status_code' => Response::HTTP_OK,

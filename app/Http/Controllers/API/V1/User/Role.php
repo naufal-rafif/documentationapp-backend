@@ -90,7 +90,7 @@ class Role extends Controller
         $role_level = Auth::user()->roles[0]->level;
         $data = RoleModel::select('id', 'name', 'uuid', 'description')->with([
             'permissions' => function ($query) {
-                $query->select(['uuid', 'name', 'label', 'description', 'group_id'])->limit(5);
+                $query->select(['uuid', 'name', 'label', 'description', 'group_id']);
             }
         ])
             ->where('level', '>', $role_level)
@@ -99,8 +99,8 @@ class Role extends Controller
         if ($request->search) {
             $data->whereLike('name', "%$request->search%");
         }
-        $total_data = RoleModel::count();
-        $data = $data->get()
+        $total_data = RoleModel::where('level', '>', $role_level)->count();
+        $data = $data->orderBy('id', 'asc')->get()
             ->makeHidden('id');
 
         $data = $data->map(function ($item) {
