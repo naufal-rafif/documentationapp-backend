@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API\V1\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\User\UpdateUserRequest;
+use App\Http\Requests\User\Profile\UpdateProfileRequest;
 use App\Models\User;
 use App\Models\UserDetail;
-use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class Profile extends Controller
@@ -116,32 +117,38 @@ class Profile extends Controller
      *     )
      * )
      */
-    public function update(UpdateUserRequest $request)
+    public function update(UpdateProfileRequest $request)
     {
         $user_id = Auth::user()->id;
         $user = User::with('details')->find($user_id);
         $user->update([
-            'name' => $request->name ?? $user->name,
-            'email' => $request->email ?? $user->email,
+            'name' => $request->name ?: $user->name,
+            'email' => $request->email ?: $user->email,
             'password' => $request->password ? bcrypt($request->password) : $user->password
         ]);
-        $avatarPath = null;
+        $avatarPath = $user->details->avatar;
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
 
             // Determine storage location
             $storageDisk = config('filesystems.default'); // 'local' or 's3'
 
+            // Delete previous avatar
+            if ($user->details->avatar) {
+                Storage::disk($storageDisk)->delete($user->details->avatar);
+            }
+
             // Store the file and get its path
             $avatarPath = $file->store('avatars', $storageDisk); // E.g., 'avatars/image.jpg'
         }
 
+
         UserDetail::where('user_id', $user_id)->update([
             'full_name' => $request->full_name ?? $user->details->full_name,
             'address' => $request->address ?? $user->details->address,
-            'avatar' => $request->hasFile('avatar') ? $avatarPath : $user->details->avatar,
+            'avatar' => $avatarPath,
             'phone_number' => $request->phone_number ?? $user->details->phone_number,
-            'birth_date' => $request->birth_date ?? $user->details->birth_date,
+            'birth_date' => Carbon::parse($request->birth_date)->toDateString() ?? $user->details->birth_date,
             'gender' => $request->gender ?? $user->details->gender,
             'status_account' => $request->status_account ?? $user->details->status_account,
         ]);
@@ -152,7 +159,7 @@ class Profile extends Controller
             'details' => [
                 'full_name' => $user->details->full_name,
                 'address' => $user->details->address,
-                'avatar' => $user->details->avatar,
+                'avatar' => $avatarPath !== null ? asset('storage/' . $avatarPath) : null,
                 'phone_number' => $user->details->phone_number,
                 'birth_date' => $user->details->birth_date,
                 'gender' => $user->details->gender,

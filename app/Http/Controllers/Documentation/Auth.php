@@ -25,7 +25,7 @@ class Auth extends Controller
     public function login(Request $request)
     {
         if (
-            AuthFacades::guard('api')->attempt([
+            AuthFacades::guard('api')->setTTL(60)->attempt([
                 'email' => $request->email,
                 'password' => $request->password,
             ])

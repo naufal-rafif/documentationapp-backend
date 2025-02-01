@@ -50,6 +50,7 @@ code coverage can be found at <base_url>/storage/coverage/Http/index.html
 - [x] Docker Config Available
 - [x] API Documentation (/documentation)
 - [x] Role Permission
+- [x] Data Master Region
 - [x] Testing
 
 ## Happy Code !

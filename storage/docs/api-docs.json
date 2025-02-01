@@ -320,6 +320,1520 @@
                 }
             }
         },
+        "/data-master/district": {
+            "get": {
+                "tags": [
+                    "Data Master - District"
+                ],
+                "summary": "Get all district",
+                "operationId": "4b762d999df481313aeddaad3d88f2b4",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by district name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 5
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page data",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "regency_id",
+                        "in": "query",
+                        "description": "Regency id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "total_data": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total_pages": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "alt_name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "latitude": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "longitude": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Data Master - District"
+                ],
+                "summary": "Create a district",
+                "description": "Create a district",
+                "operationId": "58a71187614babdd3b6499d36605ac31",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "alt_name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-6.21462"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "106.84513"
+                                    },
+                                    "regency_id": {
+                                        "type": "string",
+                                        "example": "regency-1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/data-master/district/{uuid}": {
+            "get": {
+                "tags": [
+                    "Data Master - District"
+                ],
+                "summary": "Show district by uuid",
+                "description": "Show a district by uuid",
+                "operationId": "e4d80dbdca6fe43988e8ffd21a7cd814",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "district-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Selatan"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Selatan"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Data Master - District"
+                ],
+                "summary": "Update district by uuid",
+                "description": "Update a district by uuid.",
+                "operationId": "08af1a4909dc72615d4ace31ca8b319d",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "alt_name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-6.21462"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "106.84513"
+                                    },
+                                    "regency_id": {
+                                        "type": "string",
+                                        "example": "regency-1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "district-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Selatan"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Selatan"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Data Master - District"
+                ],
+                "summary": "Delete district by uuid",
+                "description": "Delete a district by uuid",
+                "operationId": "ed12fad650aee6966d3584a990806546",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "District deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/data-master/province": {
+            "get": {
+                "tags": [
+                    "Data Master - Province"
+                ],
+                "summary": "Get all province",
+                "operationId": "2d82c577a86cdb8ed13e0dae113cbfa2",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by province name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 5
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page data",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "total_data": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total_pages": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "4f5b5d75-2a9b-4d35-9d4a-5a7b02b3f37b"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "DKI JAKARTA"
+                                                    },
+                                                    "alt_name": {
+                                                        "type": "string",
+                                                        "example": "DKI JAKARTA"
+                                                    },
+                                                    "latitude": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": -6.21462
+                                                    },
+                                                    "longitude": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 106.84513
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Data Master - Province"
+                ],
+                "summary": "Create a new province",
+                "description": "Create a new province",
+                "operationId": "d09a07397fa89f9ae7ba3b0c385a4276",
+                "requestBody": {
+                    "description": "Province data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "DKI JAKARTA"
+                                    },
+                                    "alt_name": {
+                                        "type": "string",
+                                        "example": "DKI JAKARTA"
+                                    },
+                                    "latitude": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": -6.21462
+                                    },
+                                    "longitude": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 106.84513
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "4f5b5d75-2a9b-4d35-9d4a-5a7b02b3f37b"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "DKI JAKARTA"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "DKI JAKARTA"
+                                                },
+                                                "latitude": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": -6.21462
+                                                },
+                                                "longitude": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 106.84513
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 422
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/data-master/province/{uuid}": {
+            "get": {
+                "tags": [
+                    "Data Master - Province"
+                ],
+                "summary": "Show province by uuid",
+                "description": "Show a province by uuid",
+                "operationId": "20c3926653f56bde530fa72158f5ec85",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "province-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "DKI Jakarta"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Data Master - Province"
+                ],
+                "summary": "Update province by uuid",
+                "description": "Update a province by uuid",
+                "operationId": "df4a5c84fdb14d4e6b32007aed0f54a3",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    },
+                                    "alt_name": {
+                                        "type": "string",
+                                        "example": "DKI Jakarta"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-6.21462"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "106.84513"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "province-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "DKI Jakarta"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Data Master - Province"
+                ],
+                "summary": "Delete a province by uuid",
+                "description": "Delete a province by uuid",
+                "operationId": "6363e5e07b0bb5b66a898b54f861845b",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Province deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/data-master/regency": {
+            "get": {
+                "tags": [
+                    "Data Master - Regency"
+                ],
+                "summary": "Get all regency",
+                "operationId": "c583cf6414d4188e4d2ffa7833f06d24",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by regency name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 5
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page data",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "province_id",
+                        "in": "query",
+                        "description": "Province id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "total_data": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total_pages": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "regency-1"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Jakarta Pusat"
+                                                    },
+                                                    "alt_name": {
+                                                        "type": "string",
+                                                        "example": "Jakarta Pusat"
+                                                    },
+                                                    "latitude": {
+                                                        "type": "string",
+                                                        "example": "-6.21462"
+                                                    },
+                                                    "longitude": {
+                                                        "type": "string",
+                                                        "example": "106.84513"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Data Master - Regency"
+                ],
+                "summary": "Create a new regency",
+                "operationId": "27447085d6d89724f25be274590fa133",
+                "requestBody": {
+                    "description": "Regency data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "province_id": {
+                                        "type": "string",
+                                        "example": "province-1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "alt_name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-6.21462"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "106.84513"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "regency-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Pusat"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Pusat"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 422
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/data-master/regency/{uuid}": {
+            "get": {
+                "tags": [
+                    "Data Master - Regency"
+                ],
+                "summary": "Show regency by uuid",
+                "description": "Show a regency by uuid",
+                "operationId": "839c2966bde660c5a103010328e8faee",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "regency-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Pusat"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Pusat"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Data Master - Regency"
+                ],
+                "summary": "Update regency by uuid",
+                "description": "Update a regency by uuid",
+                "operationId": "e2655bb05f982aedd5f0554a8ebaf922",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "province_id": {
+                                        "type": "string",
+                                        "example": "province-1"
+                                    },
+                                    "alt_name": {
+                                        "type": "string",
+                                        "example": "Jakarta Pusat"
+                                    },
+                                    "latitude": {
+                                        "type": "string",
+                                        "example": "-6.21462"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "example": "106.84513"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "regency-1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Pusat"
+                                                },
+                                                "alt_name": {
+                                                    "type": "string",
+                                                    "example": "Jakarta Pusat"
+                                                },
+                                                "latitude": {
+                                                    "type": "string",
+                                                    "example": "-6.21462"
+                                                },
+                                                "longitude": {
+                                                    "type": "string",
+                                                    "example": "106.84513"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Data Master - Regency"
+                ],
+                "summary": "Delete regency by uuid",
+                "description": "Delete a regency by uuid",
+                "operationId": "9c0099e7168c5de91e6f0c1882e9c0c8",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/user/permission": {
             "get": {
                 "tags": [
@@ -2277,6 +3791,18 @@
         {
             "name": "User - User",
             "description": "Endpoints related to managing users. Use these endpoints to create, update, delete, or fetch users."
+        },
+        {
+            "name": "Data Master - Province",
+            "description": "Endpoints related to managing provinces. Use these endpoints to create, update, delete, or fetch provinces."
+        },
+        {
+            "name": "Data Master - Regency",
+            "description": "Endpoints related to managing regencies. Use these endpoints to create, update, delete, or fetch regencies."
+        },
+        {
+            "name": "Data Master - District",
+            "description": "Endpoints related to managing districts. Use these endpoints to create, update, delete, or fetch districts."
         }
     ],
     "components": {

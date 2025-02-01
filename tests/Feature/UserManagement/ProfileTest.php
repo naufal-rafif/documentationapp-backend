@@ -81,13 +81,13 @@ class ProfileTest extends DataTestCase
             'password' => 'password123',
             'password_confirmation' => 'password123',
             'avatar' => UploadedFile::fake()->image('file1.png', 600, 600),
-            'phone_number' => $this->faker->phoneNumber,
+            'phone_number' => '086123456789',
             'birth_date' => $this->faker->date('Y-m-d'),
             'gender' => $this->faker->randomElement(['male', 'female']),
             'status_account' => $this->faker->randomElement(['active', 'inactive'])
         ];
         $response = $this->actingAs($this->admin, 'api')
-            ->putJson($this->base_url, $userData);
+            ->postJson($this->base_url, $userData);
 
         $this->output->writeln(substr($response->getContent(), 0, 1000));
 

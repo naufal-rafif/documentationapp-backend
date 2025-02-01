@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\V1\Authentication\Basic;
+use App\Http\Controllers\API\V1\DataMaster\District;
+use App\Http\Controllers\API\V1\DataMaster\Province;
+use App\Http\Controllers\API\V1\DataMaster\Regency;
 use App\Http\Controllers\API\V1\User\Permission;
 use App\Http\Controllers\API\V1\User\Profile;
 use App\Http\Controllers\API\V1\User\Role;
@@ -15,12 +18,35 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('basic/login', [Basic::class, 'login']); //create
-        Route::post('basic/register', [Basic::class, 'register'])->middleware('guest'); //create
+        Route::post('basic/register', [Basic::class, 'register']); //create
+    });
+    Route::prefix('data-master')->middleware('auth:api')->group(function () {
+        Route::prefix('province')->group(function () {
+            Route::get('', [Province::class, 'index']);
+            Route::post('', [Province::class, 'store'])->middleware('permission:create-provinces,api');
+            Route::get('/{uuid}', [Province::class, 'show']);
+            Route::put('/{uuid}', [Province::class, 'update'])->middleware('permission:edit-provinces,api');
+            Route::delete('/{uuid}', [Province::class, 'destroy'])->middleware('permission:delete-provinces,api');
+        });
+        Route::prefix('regency')->group(function () {
+            Route::get('', [Regency::class, 'index']);
+            Route::post('', [Regency::class, 'store'])->middleware('permission:create-regencies,api');
+            Route::get('/{uuid}', [Regency::class, 'show']);
+            Route::put('/{uuid}', [Regency::class, 'update'])->middleware('permission:edit-regencies,api');
+            Route::delete('/{uuid}', [Regency::class, 'destroy'])->middleware('permission:delete-regencies,api');
+        });
+        Route::prefix('district')->group(function () {
+            Route::get('', [District::class, 'index']);
+            Route::post('', [District::class, 'store'])->middleware('permission:create-districts,api');
+            Route::get('/{uuid}', [District::class, 'show']);
+            Route::put('/{uuid}', [District::class, 'update'])->middleware('permission:edit-districts,api');
+            Route::delete('/{uuid}', [District::class, 'destroy'])->middleware('permission:delete-districts,api');
+        });
     });
     Route::prefix('user')->middleware('auth:api')->group(function () {
         Route::prefix('profile')->group(function () {
             Route::get('', [Profile::class, 'index']); //list
-            Route::put('', [Profile::class, 'update']); //update
+            Route::post('', [Profile::class, 'update']); //update
         });
         Route::prefix('user')->group(function () {
             Route::get('', [User::class, 'index'])->middleware('permission:access-users,api'); //list

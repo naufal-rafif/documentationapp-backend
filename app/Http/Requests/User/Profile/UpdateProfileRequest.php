@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\User\User;
+namespace App\Http\Requests\User\Profile;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,16 +22,9 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = User::where('uuid', $this->route(param: 'uuid'))->value('id')?? null;
         return [
             'name' => 'nullable|string|max:255',
-            'email' => [
-                'nullable',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($userId),
-            ],
+            'email' => 'nullable|string|email|max:255',
             'password' => 'nullable|string|min:6|confirmed',
             'full_name' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',

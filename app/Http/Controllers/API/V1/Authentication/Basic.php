@@ -73,7 +73,7 @@ class Basic extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (!$token = Auth::guard('api')->attempt($credentials)) {
+        if (!$token = Auth::guard('api')->setTTL(525600)->attempt($credentials)) {
             return response()->json([
                 'status_code' => Response::HTTP_NOT_FOUND,
                 'message' => 'User not Found'

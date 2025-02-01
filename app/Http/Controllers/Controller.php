@@ -38,6 +38,21 @@ namespace App\Http\Controllers;
  *     description="Endpoints related to managing users. Use these endpoints to create, update, delete, or fetch users."
  * ) 
  * 
+ * @OA\Tag(
+ *     name="Data Master - Province",
+ *     description="Endpoints related to managing provinces. Use these endpoints to create, update, delete, or fetch provinces."
+ * ) 
+ * 
+ * @OA\Tag(
+ *     name="Data Master - Regency",
+ *     description="Endpoints related to managing regencies. Use these endpoints to create, update, delete, or fetch regencies."
+ * ) 
+ * 
+ * @OA\Tag(
+ *     name="Data Master - District",
+ *     description="Endpoints related to managing districts. Use these endpoints to create, update, delete, or fetch districts."
+ * ) 
+ * 
  * @OA\Server(
  *     description="Local Development Server",
  *     url="https://test.naufalrafif.com/api/v1"
