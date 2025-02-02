@@ -144,26 +144,26 @@ class Profile extends Controller
 
 
         UserDetail::where('user_id', $user_id)->update([
-            'full_name' => $request->full_name ?? $user->details->full_name,
-            'address' => $request->address ?? $user->details->address,
+            'full_name' => $request->full_name ?: $user->details->full_name,
+            'address' => $request->address ?: $user->details->address,
             'avatar' => $avatarPath,
-            'phone_number' => $request->phone_number ?? $user->details->phone_number,
-            'birth_date' => Carbon::parse($request->birth_date)->toDateString() ?? $user->details->birth_date,
-            'gender' => $request->gender ?? $user->details->gender,
-            'status_account' => $request->status_account ?? $user->details->status_account,
+            'phone_number' => $request->phone_number ?: $user->details->phone_number,
+            'birth_date' => Carbon::parse($request->birth_date)->toDateString() ?: $user->details->birth_date,
+            'gender' => $request->gender ?: $user->details->gender,
+            'status_account' => $request->status_account ?: $user->details->status_account,
         ]);
         $user = [
             'id' => $user->uuid,
             'name' => $user->name,
             'email' => $user->email,
             'details' => [
-                'full_name' => $user->details->full_name,
-                'address' => $user->details->address,
+                'full_name' => $request->full_name ?: $user->details->full_name,
+                'address' => $request->address ?: $user->details->address,
                 'avatar' => $avatarPath !== null ? asset('storage/' . $avatarPath) : null,
-                'phone_number' => $user->details->phone_number,
-                'birth_date' => $user->details->birth_date,
-                'gender' => $user->details->gender,
-                'status_account' => $user->details->status_account
+                'phone_number' => $request->phone_number ?: $user->details->phone_number,
+                'birth_date' => $request->birth_date ?: $user->details->birth_date,
+                'gender' => $request->gender ?: $user->details->gender,
+                'status_account' => $request->status_account ?: $user->details->status_account
             ]
         ];
         return response()->json([
