@@ -55,7 +55,7 @@ namespace App\Http\Controllers;
  * 
  * @OA\Server(
  *     description="Local Development Server",
- *     url="https://test.naufalrafif.com/api/v1"
+ *     url="http://localhost:8000/api/v1"
  * )
  * @OA\Server(
  *     description="Staging Server",
