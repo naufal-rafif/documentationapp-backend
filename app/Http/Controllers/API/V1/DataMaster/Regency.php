@@ -236,7 +236,7 @@ class Regency extends Controller
 
     public function show($uuid)
     {
-        $data = RegencyModel::where('uuid', $uuid)->first();
+        $data = RegencyModel::with('province')->where('uuid', $uuid)->first();
         if ($data === null) {
             return response()->json([
                 'status_code' => Response::HTTP_NOT_FOUND,
@@ -252,6 +252,13 @@ class Regency extends Controller
                 'alt_name' => $data->alt_name,
                 'latitude' => $data->latitude,
                 'longitude' => $data->longitude,
+                'province' => [
+                    'id' => $data->province->uuid,
+                    'name' => $data->province->name,
+                    'alt_name' => $data->province->alt_name,
+                    'latitude' => $data->province->latitude,
+                    'longitude' => $data->province->longitude
+                ],
             ]
         ]);
     }

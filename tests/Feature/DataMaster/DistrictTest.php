@@ -182,7 +182,7 @@ class DistrictTest extends DataTestCase
         $districts = District::create($this->districtData);
         $districtsData = [
             'name' => $this->faker->name,
-            'province_id' => Province::first()->uuid,
+            'regency_id' => Regency::first()->uuid,
             'alt_name' => $this->faker->name,
             'latitude' => $this->faker->latitude,
             'longitude' => $this->faker->longitude,

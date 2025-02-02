@@ -17,9 +17,9 @@ class District extends Model
         'longitude'
     ];
 
-    // public function regency()
-    // {
-    //     return $this->belongsTo(Regency::class);
-    // }
+    public function regency()
+    {
+        return $this->belongsTo(Regency::class);
+    }
     
 }

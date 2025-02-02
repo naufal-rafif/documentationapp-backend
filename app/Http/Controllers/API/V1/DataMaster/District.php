@@ -226,7 +226,7 @@ class District extends Controller
      */
     public function show($uuid)
     {
-        $data = DistrictModel::where('uuid', $uuid)->first();
+        $data = DistrictModel::with('regency')->where('uuid', $uuid)->first();
         if ($data === null) {
             return response()->json([
                 'status_code' => Response::HTTP_NOT_FOUND,
@@ -242,6 +242,13 @@ class District extends Controller
                 'alt_name' => $data->alt_name,
                 'latitude' => $data->latitude,
                 'longitude' => $data->longitude,
+                'regency' => [
+                    'id' => $data->regency->uuid,
+                    'name' => $data->regency->name,
+                    'alt_name' => $data->regency->alt_name,
+                    'latitude' => $data->regency->latitude,
+                    'longitude' => $data->regency->longitude
+                ]
             ]
         ], Response::HTTP_OK);
     }
@@ -304,9 +311,10 @@ class District extends Controller
                 'message' => 'District not found',
             ], Response::HTTP_NOT_FOUND);
         }
+        $regency = RegencyModel::where('uuid', $request->regency_id)->first();
         $data->update([
             'name' => $request->name,
-            'regency_id' => $request->regency_id,
+            'regency_id' => $regency->id,
             'alt_name' => $request->alt_name,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude
