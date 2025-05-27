@@ -69,7 +69,6 @@ class BasicTest extends DataTestCase
                     'user' => [
                         'name',
                         'email',
-                        'company_id',
                         'permissions' => [],
                         'details' => [
                             'full_name',
@@ -126,17 +125,6 @@ class BasicTest extends DataTestCase
     }
     public function test_can_register_with_company()
     {
-
-        $this->userData['company_id'] = Company::create([
-            'uuid' => Uuid::uuid4(),
-            'name' => 'PT. Test',
-            'description' => 'PT. Test',
-            'logo' => UploadedFile::fake()->image('file1.png', 600, 600),
-            'address' => 'Jl. Test, Jakarta',
-            'phone_number' => '0812345678',
-            'status' => 'active',
-            'default_role' => 'Guest'
-        ])->uuid;
         $response = $this->postJson($this->base_url . '/register', $this->userData);
 
         $this->output->writeln(substr($response->getContent(), 0, 1000));

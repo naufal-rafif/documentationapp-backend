@@ -43,7 +43,6 @@ class Basic extends Controller
      *                 @OA\Property(property="user", type="object",
      *                     @OA\Property(property="name", type="string", example="John Doe"),
      *                     @OA\Property(property="email", type="string", example="user1@mail.com"),
-     *                     @OA\Property(property="company_id", type="integer", example=1),
      *                     @OA\Property(property="permissions", type="array", collectionFormat="multi", @OA\Items(type="string", example="view_users")),
      *                     @OA\Property(property="details", type="object",
      *                         @OA\Property(property="full_name", type="string", example="John Doe"),
@@ -79,7 +78,7 @@ class Basic extends Controller
                 'message' => 'User not Found'
             ], Response::HTTP_NOT_FOUND);
         }
-        $user = UserModel::select('id', 'name', 'email', 'company_id')->with([
+        $user = UserModel::select('id', 'name', 'email')->with([
             'details' => function ($query) {
                 $query->select(['user_id', 'full_name', 'address', 'avatar', 'phone_number', 'birth_date', 'gender', 'status_account']);
             },
@@ -96,7 +95,6 @@ class Basic extends Controller
         $user = [
             'name' => $user->name,
             'email' => $user->email,
-            'company_id' => $user->company_id,
             'permissions' => $user->permissions,
             'roles' => $user->roles->pluck('name'),
             'details' => [
@@ -186,11 +184,6 @@ class Basic extends Controller
      *                     type="string",
      *                     format="binary",
      *                     example="string (binary file)"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="company_id",
-     *                     type="string",
-     *                     example="d7ea6c3a-9a0a-4c6f-8df4-6c3cc9b89ea9"
      *                 ),
      *             )
      *         )
@@ -286,14 +279,9 @@ class Basic extends Controller
             'gender' => $request->gender ?? null,
             'status_account' => $request->status_account ?? 'active', // Default status
         ]);
-        $company = Company::where('uuid', $request->company_id ?? null)->first();
-        if ($company) {
-            $default_role = $company->default_role;
-        } else {
-            $default_role = 'Guest';
-        }
+        $default_role = 'Guest';
 
-        $role = Role::where('name', $default_role)->where('company_id', $company?->id ?? null)->first();
+        $role = Role::where('name', $default_role)->first();
         $user->assignRole($role);
 
         return response()->json([

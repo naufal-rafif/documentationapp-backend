@@ -142,7 +142,6 @@ class Role extends Controller
      *             @OA\Property(property="name", type="string", example="role_name", description="The name of the role"),
      *             @OA\Property(property="level", type="integer", example=1, description="The level of the role", nullable=true),
      *             @OA\Property(property="description", type="string", example="role_description", description="The description of the role", nullable=true),
-     *             @OA\Property(property="company_id", type="string", example="company_uuid", description="The uuid of the company", nullable=true),
      *             @OA\Property(property="permissions", type="array", collectionFormat="multi", @OA\Items(type="string", example="permission_uuid"), description="The uuid of the permissions", nullable=true)
      *         )
      *     ),
@@ -187,19 +186,11 @@ class Role extends Controller
                 'message' => 'You are not allowed to create a role with a higher level than your own',
             ], Response::HTTP_FORBIDDEN);
         }
-        $company_id = Company::first()->id;
-        if($request->company_id){
-            $company = Company::where('uuid', $request->company_id)->first();
-            if($company)    {
-                $company_id = $company->id;
-            }
-        }
         $role = RoleModel::create([
             'uuid' => Uuid::uuid4(),
             'name' => $request->name,
             'guard_name' => 'api',
             'level' => $request->level ?: 10,
-            'company_id' => $company_id,
             'description' => $request->description,
         ]);
         $permissions = [];

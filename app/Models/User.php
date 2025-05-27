@@ -25,7 +25,6 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'company_id',
     ];/**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

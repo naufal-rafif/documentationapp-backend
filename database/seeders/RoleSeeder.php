@@ -20,7 +20,6 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'Developer',
                 'guard_name' => 'api',
-                'company_id' => null,
                 'description' => 'For Developer',
                 'level' => 0,
                 'permissions' => Permission::all()
@@ -28,7 +27,6 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'Super Admin',
                 'guard_name' => 'api',
-                'company_id' => null,
                 'description' => 'For Super Admin',
                 'level' => 1,
                 'permissions' => Permission::whereNotIn('level',[0])->get()
@@ -36,10 +34,16 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'guard_name' => 'api',
-                'company_id' => null,
                 'description' => 'For Admin',
                 'level' => 2,
                 'permissions' => Permission::whereNotIn('level',[0,1])->get()
+            ],
+            [
+                'name' => 'Guest',
+                'guard_name' => 'api',
+                'description' => 'For Admin',
+                'level' => 2,
+                'permissions' => Permission::whereNotIn('level',[0,1,2,3,4,5])->get()
             ],
         ];
 
@@ -48,7 +52,6 @@ class RoleSeeder extends Seeder
             if ($data) {
                 Role::where('name', $role['name'])->update([
                     'guard_name' => $role['guard_name'],
-                    'company_id' => $role['company_id'],
                     'description' => $role['description'],
                     'level' => $role['level'],
                     'updated_at' => Carbon::now(),
@@ -57,7 +60,6 @@ class RoleSeeder extends Seeder
                $data = Role::create([
                     'name' => $role['name'],
                     'guard_name' => $role['guard_name'],
-                    'company_id' => $role['company_id'],
                     'description' => $role['description'],
                     'uuid' => Uuid::uuid4(),
                     'level' => $role['level'],

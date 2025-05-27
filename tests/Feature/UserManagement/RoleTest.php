@@ -138,13 +138,11 @@ class RoleTest extends DataTestCase
     {
         $user_level = $this->admin->roles[0]->level;
         $permissions = Permission::where('level','>', $user_level)->pluck('uuid')->toArray();
-        $company = Company::first();
         $userData = [
             'name' => 'Tester',
             'level' => 6, 
             'description' => $this->faker->text(50),
             'permissions' => $permissions,
-            'company_id' => $company->uuid
         ];
         $response = $this->actingAs($this->admin, 'api')
             ->postJson($this->base_url, $userData);
@@ -166,7 +164,6 @@ class RoleTest extends DataTestCase
         $this->assertDatabaseHas('roles', [
             'name' => $userData['name'],
             'level' => $userData['level'],
-            'company_id' => $company->id,
             'description' => $userData['description']
         ]);
     }
@@ -182,13 +179,11 @@ class RoleTest extends DataTestCase
         $superAdmin->assignRole($role);
         $user_level = $superAdmin->roles[0]->level;
         $permissions = Permission::where('level','>', $user_level)->pluck('uuid')->toArray();
-        $company = Company::first();
         $userData = [
             'name' => 'Tester',
             'level' => 1, 
             'description' => $this->faker->text(50),
             'permissions' => $permissions,
-            'company_id' => $company->uuid
         ];
         $response = $this->actingAs($superAdmin, 'api')
             ->postJson($this->base_url, $userData);

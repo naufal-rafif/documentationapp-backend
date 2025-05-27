@@ -12,8 +12,6 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('uuid')->nullable()->unique()->after('id');
-            $table->unsignedBigInteger('company_id')->nullable()->default(null);
-            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->dateTime('deleted_at')->nullable();
         });
         Schema::create('user_details', function (Blueprint $table) {
@@ -37,8 +35,6 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['company_id']);
-            $table->dropColumn('company_id');
             $table->dropColumn('deleted_at');
         });
         Schema::table('user_details', function (Blueprint $table) {

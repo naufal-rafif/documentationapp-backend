@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::table('roles', function (Blueprint $table) {
             $table->string('uuid')->nullable()->after('id');
-            $table->unsignedBigInteger('company_id')->nullable()->default(null);
-            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->string('description')->nullable();
             $table->integer('level')->nullable();
         });

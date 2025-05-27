@@ -152,14 +152,12 @@ class UserTest extends DataTestCase
     }
     public function test_can_create_user_with_company()
     {
-        $company = Company::first();
         $userData = [
             'name' => $this->faker->name,
             'full_name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'company_id' => $company ? $company->uuid : null
         ];
         $response = $this->actingAs($this->admin, 'api')
             ->postJson($this->base_url, $userData);
@@ -270,13 +268,11 @@ class UserTest extends DataTestCase
     }
     public function test_can_update_user_with_company()
     {
-        $company = Company::first();
         $updatedData = [
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'company_id' => $company->uuid
         ];
         $response = $this->actingAs($this->admin, 'api')
             ->putJson($this->base_url . '/' . $this->admin->uuid, $updatedData);

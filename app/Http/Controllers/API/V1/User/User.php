@@ -145,7 +145,6 @@ class User extends Controller
      *             @OA\Property(property="birth_date", type="string", example="1990-01-01", nullable=true, format="date"),
      *             @OA\Property(property="gender", type="string", example="male", nullable=true),
      *             @OA\Property(property="status_account", type="string", example="active", nullable=true, default="active"),
-     *             @OA\Property(property="company_id", type="string", example="company_uuid", nullable=true),
      *         )
      *     ),
      *     @OA\Response(
@@ -192,14 +191,9 @@ class User extends Controller
             'gender' => $request->gender ?? null,
             'status_account' => $request->status_account ?? 'active', // Default status
         ]);
-        $company = Company::where('uuid', $request->company_id ?? null)->first();
-        if ($company) {
-            $default_role = $company->default_role;
-        } else {
-            $default_role = 'Guest';
-        }
-
-        $role = Role::where('name', $default_role)->where('company_id', $company?->id ?? null)->first();
+        
+        $default_role = 'Guest';
+        $role = Role::where('name', $default_role)->first();
         $user->assignRole($role);
 
         return response()->json([
@@ -308,7 +302,6 @@ class User extends Controller
      *             @OA\Property(property="name", type="string", example="John Doe"),
      *             @OA\Property(property="email", type="string", example="john@example.com"),
      *             @OA\Property(property="password", type="string", example="password", nullable=true),
-     *             @OA\Property(property="company_id", type="string", example="company_uuid", nullable=true),
      *             @OA\Property(property="role_id", type="string", example="role_uuid", nullable=true)
      *         )
      *     ),
@@ -356,14 +349,9 @@ class User extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        $company = Company::where('uuid', $request->company_id ?? null)->first();
-        if ($company) {
-            $default_role = $company->default_role;
-        } else {
+      
             $default_role = 'Guest';
-        }
-
-        $role = Role::where('uuid', $request->role_id ?? $default_role)->where('company_id', $company?->id ?? null)->first();
+        $role = Role::where('uuid', $request->role_id ?? $default_role)->first();
         $user->syncRoles($role);
 
         return response()->json([
