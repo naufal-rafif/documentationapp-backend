@@ -2,6 +2,7 @@
 
 ### NOTE
 - please change your .env file, change the config database, and app as you want.
+- the default password is ***password*** you can change on .env file on variable `DEFAULT_PASSWORD`
 
 ## Docker Usage
 

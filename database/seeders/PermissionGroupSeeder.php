@@ -18,8 +18,7 @@ class PermissionGroupSeeder extends Seeder
         $permissionGroup = [
             ['name' => 'User', 'description' => 'for User Purpose'],
             ['name' => 'Role', 'description' => 'for Role Purpose'],
-            ['name' => 'Permission', 'description' => 'for Permission Purpose'],
-            ['name' => 'Data Master', 'description' => 'for Data Master Purpose'],
+            ['name' => 'Permission', 'description' => 'for Permission Purpose']
         ];
 
         foreach ($permissionGroup as $group) {

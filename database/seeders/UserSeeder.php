@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'name' => 'Developer',
                 'role' => 'Developer',
                 'email' => 'developer@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                 'name' => 'Super Admin',
                 'role' => 'Super Admin',
                 'email' => 'superadmin@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
                 'name' => 'Admin',
                 'role' => 'Admin',
                 'email' => 'admin@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
                 'name' => 'Staff',
                 'role' => 'Staff',
                 'email' => 'staff@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest',
                 'role' => 'Guest',
                 'email' => 'guest@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -108,7 +108,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 1',
                 'role' => 'Guest',
                 'email' => 'guest1@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -125,7 +125,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 2',
                 'role' => 'Guest',
                 'email' => 'guest2@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -142,7 +142,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 3',
                 'role' => 'Guest',
                 'email' => 'guest3@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -159,7 +159,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 4',
                 'role' => 'Guest',
                 'email' => 'guest4@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -176,7 +176,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 5',
                 'role' => 'Guest',
                 'email' => 'guest5@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -193,7 +193,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 6',
                 'role' => 'Guest',
                 'email' => 'guest6@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
@@ -210,7 +210,7 @@ class UserSeeder extends Seeder
                 'name' => 'Guest 7',
                 'role' => 'Guest',
                 'email' => 'guest7@example.com',
-                'password' => bcrypt('password'),
+                'password' => bcrypt(env('DEFAULT_PASSWORD', 'password')),
                 'email_verified_at' => now(),
                 'company_id' => Company::where('name', 'Default')->first()->id,
                 'details' => [
